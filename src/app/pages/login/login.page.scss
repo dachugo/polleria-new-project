@@ -1,0 +1,152 @@
+$primary-yellow: #fab222;
+$primary-red: #8d2516;
+$hover-yellow: #e4a21d;
+$color-dark: #120000;
+$white: #ffffff;
+$light-gray: #737373;
+$text-dark: #151515;
+$font-family: "Inter", sans-serif;
+
+@mixin cover-background($url) {
+  background: url($url) no-repeat center center/cover;
+}
+
+@mixin fixed-fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-center-column {
+  @include flex-center;
+  flex-direction: column;
+}
+
+@mixin image-container($url) {
+  background-image: url($url);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+// Estilos aplicados
+.background-image {
+  @include cover-background("/assets/img/background-image.png");
+  @include fixed-fullscreen;
+  z-index: -1;
+}
+
+ion-content {
+  --background: transparent;
+  @include flex-center-column;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+form {
+  width: 100%;
+  gap: 10px;
+  @include flex-center-column;
+}
+
+span {
+  font-family: $font-family;
+  color: $primary-red;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.forgot-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+ion-label {
+  --background: transparent;
+  color: $primary-red;
+  font-family: $font-family;
+  font-weight: normal;
+}
+
+.image-container {
+  @include image-container("/assets/img/image-logo-without-bg.svg");
+  width: 300px;
+  margin-top: 2em;
+  height: 300px;
+}
+
+.main-container {
+  margin-top: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.button-container {
+  @include flex-center-column();
+  width: 100%;
+  gap: 10px;
+  padding-top: 3em;
+}
+
+.inputs-container {
+  @include flex-center-column();
+  width: 70%;
+  margin-top: 10px;
+  gap: 20px;
+}
+
+ion-input {
+  width: 100%;
+  font-size: 15px;
+  color: $light-gray;
+  --padding-start: 20px;
+  border: 2px solid #{$color-dark};
+  border-radius: 10px;
+}
+
+ion-input::part(native) {
+  width: 100%;
+  font-weight: normal;
+  font-family: $font-family;
+  transition: var(--transition);
+}
+
+ion-button {
+  width: 100%;
+}
+
+ion-button::part(native) {
+  padding: 20px 10px;
+  width: 100%;
+  --border-radius: 10px;
+  font-size: 1rem; // se puede sobreescribir en clases
+  font-weight: normal;
+  font-family: $font-family; // si todos los botones lo usan
+  transition: var(--transition);
+}
+
+ion-button.login-btn::part(native) {
+  background: #{$primary-yellow};
+  color: #{$primary-red};
+  border: 3px solid #{$color-dark};
+  font-size: 20px;
+  font-weight: 900;
+  border-radius: 10px;
+  --background-activated: #{$hover-yellow};
+  --background-hover: #{$hover-yellow};
+  --background-focused: #{$hover-yellow};
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+}

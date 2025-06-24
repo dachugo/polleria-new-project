@@ -1,0 +1,116 @@
+$primary-yellow: #fab222;
+$primary-red: #8d2516;
+$hover-yellow: #e4a21d;
+$color-dark: #120000;
+$white: #ffffff;
+$text-dark: #151515;
+$font-family: "Inter", sans-serif;
+
+@mixin cover-background($url) {
+  background: url($url) no-repeat center center/cover;
+}
+
+@mixin fixed-fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-center-column {
+  @include flex-center;
+  flex-direction: column;
+}
+
+@mixin image-container($url) {
+  background-image: url($url);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+// Estilos aplicados
+.background-brown-image {
+  @include cover-background("/assets/img/background-brown-image.svg");
+  @include fixed-fullscreen;
+  z-index: -1;
+}
+
+ion-content {
+  --background: transparent;
+  @include flex-center-column;
+  min-height: 100vh;
+}
+
+.image-container {
+  @include image-container("/assets/img/image-logo-polleria.svg");
+  width: 312px;
+  height: 312px;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; // ✅
+  width: 100%;
+  height: 100%;
+  padding-top: 10em; // Empuja todo desde arriba
+}
+
+.buttons-container {
+  @include flex-center-column();
+  width: 80%;
+  gap: 10px;
+  padding-top: 6em;
+}
+
+ion-button {
+  width: 100%; // ✅ Asegura que el contenedor crezca
+  --transition: 0.3s ease; // Transición para todas las propiedades
+}
+
+ion-button::part(native) {
+  padding: 20px 10px;
+  width: 100%;
+  --border-radius: 10px;
+  font-size: 1rem; // se puede sobreescribir en clases
+  font-weight: normal;
+  font-family: $font-family; // si todos los botones lo usan
+  transition: var(--transition);
+}
+
+ion-button.login-button::part(native) {
+  background: #150101;
+  color: #{$primary-yellow};
+  border: 2px solid #{$color-dark};
+  font-size: 20px;
+  font-weight: 900;
+  border-radius: 10px;
+  --background-activated: #2b1a00;
+  --background-hover: #2b1a00;
+  --background-focused: #2b1a00;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+ion-button.register-button::part(native) {
+  background: #{$primary-yellow};
+  color: #{$primary-red};
+  border: 3px solid #{$color-dark};
+  font-size: 20px;
+  font-weight: 900;
+  border-radius: 10px;
+  --background-activated: #{$hover-yellow};
+  --background-hover: #{$hover-yellow};
+  --background-focused: #{$hover-yellow};
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+}

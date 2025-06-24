@@ -1,0 +1,26 @@
+<ion-content [fullscreen]="true" class="background-image">
+  <div class="main-container">
+    <div class="image-container"></div>
+    <div class="inputs-container">
+      <form (ngSubmit)="login()" [formGroup]="credentials">
+        <ion-input class="input-email" inputmode="email" type="email" placeholder="Correo"
+          formControlName="correo"></ion-input>
+        <ion-note slot="error" *ngIf="(correo.dirty || correo.touched) && correo.errors">Porfavor ingrese su
+          correo</ion-note>
+
+        <ion-input class="input-password" inputmode="contraseña" type="password" placeholder="Contraseña"
+          formControlName="contrasena"></ion-input>
+        <ion-note slot="error" *ngIf="(contrasena.dirty || contrasena.touched) && contrasena.errors">Porfavor ingrese su
+          contraseña</ion-note>
+        <span class="forgot-btn" (click)="forgotPassword()">Olvidaste tu Contraseña?</span>
+        <div class="button-container">
+          <ion-button type="submit" expand="block" strong="true" class="login-btn">
+            INICIAR SESIÓN
+          </ion-button>
+          <ion-label>No tienes una cuenta? <span class="register-btn"
+              (click)="goToRegister()">Regístrate</span></ion-label>
+        </div>
+      </form>
+    </div>
+  </div>
+</ion-content>

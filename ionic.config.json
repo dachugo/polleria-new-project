@@ -1,0 +1,7 @@
+{
+  "name": "polleria",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
