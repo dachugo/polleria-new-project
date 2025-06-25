@@ -1,29 +1,36 @@
 <div class="background-image"></div>
+
 <ion-content fullscreen>
   <div class="main-container">
     <div class="image-container">
-      <img src="/assets/img/image-logo-without-bg.svg" alt="">
+      <img src="/assets/img/image-logo-without-bg.svg" alt="Logo" />
     </div>
+
     <div class="text-welcome-register">
       <p class="register-text">REGISTRARSE</p>
-      <p class="desc-register-text">Rellena tus datos para que puedas acceder!</p>
+      <p class="desc-register-text">Rellena tus datos para que puedas acceder</p>
     </div>
-    <p>
-    <div class="inputs-container">
-      <ion-input class="input-name" type="text" placeholder="Nombres"></ion-input>
-      <ion-input class="input-lastname" type="text" placeholder="Apellidos"></ion-input>
-      <ion-input class="input-mail" type="mail" placeholder="user@gmail.com"></ion-input>
-      <ion-input class="input-address" type="text" placeholder="Calle 1 Los Naranjos"></ion-input>
-      <ion-input class="input-phone" type="text" placeholder="Teléfono"></ion-input>
-      <ion-input class="input-password" type="password" placeholder="Contraseña"></ion-input>
-      <ion-input class="input-password" type="password" placeholder="Verificar Contraseña"></ion-input>
 
-    </div>
-    <div class="button-container">
-      <ion-button class="login-button">
-        INICIAR SESIÓN
-      </ion-button>
-      <ion-label>Ya tienes una cuenta? <span (click)="goToLogin()">Iniciar Sesión</span></ion-label>
-    </div>
+    <form [formGroup]="credentials">
+      <div class="inputs-container">
+        <ion-input formControlName="name" type="text" placeholder="Nombres"></ion-input>
+        <ion-input formControlName="lastname" type="text" placeholder="Apellidos"></ion-input>
+        <ion-input formControlName="email" type="email" placeholder="Correo electrónico"></ion-input>
+        <ion-input formControlName="address" type="text" placeholder="Dirección"></ion-input>
+        <ion-input formControlName="phone" type="tel" placeholder="Teléfono"></ion-input>
+        <ion-input formControlName="password" type="password" placeholder="Contraseña"></ion-input>
+        <ion-input formControlName="passwordConfirmation" type="password"
+          placeholder="Confirmar contraseña"></ion-input>
+      </div>
+
+      <div class="button-container">
+        <ion-button (click)="createAccount()" class="login-button">
+          REGISTRARSE
+        </ion-button>
+        <ion-label>
+          ¿Ya tienes una cuenta? <span (click)="goToLogin()">Iniciar sesión</span>
+        </ion-label>
+      </div>
+    </form>
   </div>
 </ion-content>

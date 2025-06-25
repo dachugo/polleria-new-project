@@ -13,6 +13,8 @@ export class AuthService {
     new BehaviorSubject<User | null>(null);
 
   constructor(private router: Router) {
+    console.log('Supabase config:', environment);
+
     this.supabase = createClient(
       environment.supabaseUrl,
       environment.supabaseKey,
@@ -63,19 +65,19 @@ export class AuthService {
     });
   }
 
-  signIn(credentials: { correo: string; contrasena: string }) {
-    return this.supabase.auth.signInWithPassword({
-      email: credentials.correo,
-      password: credentials.contrasena,
+  async signIn({ email, password }: { email: string; password: string }) {
+    return await this.supabaseClient.auth.signInWithPassword({
+      email,
+      password,
     });
   }
 
-  sendPasswordReset(correo: string) {
-    return this.supabase.auth.resetPasswordForEmail(correo);
+  async sendPasswordReset(correo: string) {
+    return await this.supabaseClient.auth.resetPasswordForEmail(correo);
   }
 
   async signOut() {
-    await this.supabase.auth.signOut();
+    await this.supabaseClient.auth.signOut();
     this.currentUser.next(null);
     this.router.navigateByUrl('/', { replaceUrl: true });
   }
@@ -84,11 +86,33 @@ export class AuthService {
     return this.currentUser.asObservable();
   }
 
+  async getUserProfile() {
+    const userId = this.getCurrentUserId();
+    if (!userId) return null;
+
+    const { data, error } = await this.supabase
+      .from('usuarios')
+      .select('*')
+      .eq('id', userId)
+      .single();
+
+    if (error) {
+      console.error('Error al obtener perfil:', error);
+      return null;
+    }
+
+    return data;
+  }
+
   getCurrentUserId(): string | null {
     return this.currentUser.value?.id ?? null;
   }
 
   signInWithEmail(correo: string) {
     return this.supabase.auth.signInWithOtp({ email: correo });
+  }
+
+  get supabaseClient(): SupabaseClient {
+    return this.supabase;
   }
 }

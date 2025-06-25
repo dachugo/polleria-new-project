@@ -64,6 +64,12 @@ span {
   cursor: pointer;
 }
 
+form {
+  width: 100%;
+  gap: 10px;
+  @include flex-center-column;
+}
+
 ion-label {
   --background: transparent;
   color: $primary-red;

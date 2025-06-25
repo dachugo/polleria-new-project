@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +13,19 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  constructor() {}
+  usuario: any;
 
-  ngOnInit() {}
+  constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit() {
+    const stored = localStorage.getItem('perfil');
+    if (stored) {
+      this.usuario = JSON.parse(stored);
+    }
+  }
+
+  async logout() {
+    await this.authService.signOut();
+    this.router.navigate(['/']);
+  }
 }
