@@ -1,0 +1,55 @@
+$primary-yellow: #fab222;
+$primary-red: #8d2516;
+$hover-yellow: #e5a422;
+$color-dark: #120000;
+$white: #ffffff;
+$text-dark: #151515;
+$font-family: "Inter", sans-serif;
+
+.main-navbar-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  gap: 25px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: $primary-yellow;
+  color: $white;
+  font-family: $font-family;
+  border: 3px solid #120000;
+  height: 90px;
+  margin: 0px 1.3em;
+  margin-bottom: 2.8em;
+  border-radius: 40px; // ✅ Sin bordes redondos si es full width
+}
+
+button {
+  background-color: $hover-yellow;
+  display: flex;
+  height: 100%;
+  border-radius: 20px;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  width: 65px;
+  cursor: pointer;
+}
+
+button ion-icon {
+  font-size: 30px; // puedes ajustar el tamaño
+  color: $primary-red;
+  transition: color 0.3s ease;
+}
+
+button:hover ion-icon {
+  color: $hover-yellow;
+}
+
+button:hover {
+  background-color: $primary-red;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}

@@ -73,7 +73,7 @@ export class LoginPage implements OnInit, OnDestroy {
 
     const { correo, contrasena } = this.credentials.getRawValue();
 
-    // ✅ USAR email y password como requiere Supabase
+    //USAR email y password como requiere Supabase
     const { data, error } = await this.authService.signIn({
       email: correo,
       password: contrasena,
@@ -118,7 +118,7 @@ export class LoginPage implements OnInit, OnDestroy {
       if (!data) {
         console.log('Insertando perfil completo por primera vez');
 
-        // ✅ Cargar datos temporales si existen
+        // Cargar datos temporales si existen
         const tempData = localStorage.getItem('registro_temp');
         if (tempData) {
           try {
@@ -126,7 +126,7 @@ export class LoginPage implements OnInit, OnDestroy {
             perfilBase.nombre = parsed.nombre || '';
             perfilBase.direccion = parsed.direccion || '';
             perfilBase.telefono = parsed.telefono || '';
-            localStorage.removeItem('registro_temp'); // ✅ Limpiar
+            localStorage.removeItem('registro_temp'); //Limpiar
           } catch (e) {
             console.warn('No se pudo parsear datos de registro_temp');
           }
@@ -140,9 +140,9 @@ export class LoginPage implements OnInit, OnDestroy {
           });
 
         if (error) {
-          console.error('❌ Error al insertar perfil:', error.message);
+          console.error('Error al insertar perfil:', error.message);
         } else {
-          console.log('✅ Perfil insertado correctamente');
+          console.log('Perfil insertado correctamente');
         }
       } else {
         console.log('Perfil ya existe, no se inserta');

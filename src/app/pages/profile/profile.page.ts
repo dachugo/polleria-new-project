@@ -7,26 +7,14 @@ import { Router } from '@angular/router';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-profile',
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, NavbarComponent],
-  templateUrl: './home.page.html',
-  styleUrls: ['./home.page.scss'],
+  templateUrl: './profile.page.html',
+  styleUrls: ['./profile.page.scss'],
 })
-export class HomePage implements OnInit {
-  usuario: any;
+export class ProfilePage implements OnInit {
+  constructor() {}
 
-  constructor(private authService: AuthService, private router: Router) {}
-
-  ngOnInit() {
-    const stored = localStorage.getItem('perfil');
-    if (stored) {
-      this.usuario = JSON.parse(stored);
-    }
-  }
-
-  async logout() {
-    await this.authService.signOut();
-    this.router.navigate(['/']);
-  }
+  ngOnInit() {}
 }

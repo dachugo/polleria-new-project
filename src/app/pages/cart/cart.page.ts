@@ -7,15 +7,14 @@ import { Router } from '@angular/router';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-cart',
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, NavbarComponent],
-  templateUrl: './home.page.html',
-  styleUrls: ['./home.page.scss'],
+  templateUrl: './cart.page.html',
+  styleUrls: ['./cart.page.scss'],
 })
-export class HomePage implements OnInit {
+export class CartPage implements OnInit {
   usuario: any;
-
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
@@ -24,7 +23,6 @@ export class HomePage implements OnInit {
       this.usuario = JSON.parse(stored);
     }
   }
-
   async logout() {
     await this.authService.signOut();
     this.router.navigate(['/']);

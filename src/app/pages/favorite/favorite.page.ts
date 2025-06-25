@@ -2,20 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
-import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-favorite',
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, NavbarComponent],
-  templateUrl: './home.page.html',
-  styleUrls: ['./home.page.scss'],
+  templateUrl: './favorite.page.html',
+  styleUrls: ['./favorite.page.scss'],
 })
-export class HomePage implements OnInit {
+export class FavoritePage implements OnInit {
   usuario: any;
-
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {

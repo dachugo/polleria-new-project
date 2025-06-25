@@ -22,6 +22,21 @@ const routes: Routes = [
     loadComponent: () =>
       import('./pages/home/home.page').then((m) => m.HomePage),
   },
+  {
+    path: 'cart',
+    loadComponent: () =>
+      import('./pages/cart/cart.page').then((m) => m.CartPage),
+  },
+  {
+    path: 'favorite',
+    loadComponent: () =>
+      import('./pages/favorite/favorite.page').then((m) => m.FavoritePage),
+  },
+  {
+    path: 'profile',
+    loadComponent: () =>
+      import('./pages/profile/profile.page').then((m) => m.ProfilePage),
+  },
 ];
 
 @NgModule({

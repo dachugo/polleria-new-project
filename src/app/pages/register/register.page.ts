@@ -66,7 +66,7 @@ export class RegisterPage {
     const { email, password, name, lastname, address, phone } =
       this.credentials.getRawValue();
 
-    // ✅ Guardar datos en localStorage para usarlos tras la verificación
+    // Guardar datos en localStorage para usarlos tras la verificación
     localStorage.setItem(
       'registro_temp',
       JSON.stringify({
@@ -92,7 +92,7 @@ export class RegisterPage {
       return;
     }
 
-    // ✅ Informar que debe confirmar el correo
+    // Informar que debe confirmar el correo
     this.showAlert(
       'Registro exitoso',
       'Revisa tu correo para confirmar tu cuenta antes de iniciar sesión.'
