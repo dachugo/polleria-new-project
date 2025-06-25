@@ -90,7 +90,13 @@ export class LoginPage implements OnInit, OnDestroy {
 
     const userId = data.user.id;
 
-    await this.insertPerfilSiNoExiste(userId, correo);
+    await this.insertPerfilSiNoExiste(userId, {
+      correo,
+      nombre: '',
+      direccion: '',
+      telefono: '',
+      rol_id: '5f71c4d4-662c-4ae9-b884-5713eb3221f6',
+    });
 
     const perfil = await this.authService.getUserProfile();
     console.log('Perfil del usuario:', perfil);
@@ -101,30 +107,40 @@ export class LoginPage implements OnInit, OnDestroy {
     this.navCtrl.navigateRoot('/home');
   }
 
-  async insertPerfilSiNoExiste(userId: string, email: string) {
+  async insertPerfilSiNoExiste(userId: string, perfilBase: any) {
     try {
-      const { data, error } = await this.authService.supabaseClient
+      const { data } = await this.authService.supabaseClient
         .from('usuarios')
-        .select('*')
+        .select('id')
         .eq('id', userId)
         .maybeSingle();
 
       if (!data) {
-        console.log('Insertando perfil por primera vez');
+        console.log('Insertando perfil completo por primera vez');
 
-        const { error: insertError } = await this.authService.supabaseClient
+        // ✅ Cargar datos temporales si existen
+        const tempData = localStorage.getItem('registro_temp');
+        if (tempData) {
+          try {
+            const parsed = JSON.parse(tempData);
+            perfilBase.nombre = parsed.nombre || '';
+            perfilBase.direccion = parsed.direccion || '';
+            perfilBase.telefono = parsed.telefono || '';
+            localStorage.removeItem('registro_temp'); // ✅ Limpiar
+          } catch (e) {
+            console.warn('No se pudo parsear datos de registro_temp');
+          }
+        }
+
+        const { error } = await this.authService.supabaseClient
           .from('usuarios')
           .insert({
             id: userId,
-            nombre: 'Sin nombre',
-            direccion: 'Sin dirección',
-            telefono: '',
-            correo: email,
-            rol_id: '5f71c4d4-662c-4ae9-b884-5713eb3221f6', // Rol cliente
+            ...perfilBase,
           });
 
-        if (insertError) {
-          console.error('❌ Error al insertar perfil:', insertError.message);
+        if (error) {
+          console.error('❌ Error al insertar perfil:', error.message);
         } else {
           console.log('✅ Perfil insertado correctamente');
         }
