@@ -1,18 +1,94 @@
-<ion-content>
-  <ion-card *ngIf="usuario">
-    <ion-card-header>
-      <ion-card-title>HOME</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <p><strong>Dirección:</strong> {{ usuario.direccion }}</p>
-      <p><strong>Teléfono:</strong> {{ usuario.telefono }}</p>
-      <p><strong>Correo:</strong> {{ usuario.correo }}</p>
-      <ion-buttons slot="end">
-        <ion-button (click)="logout()">Cerrar sesión</ion-button>
-      </ion-buttons>
-    </ion-card-content>
-  </ion-card>
+<div class="background-image"></div>
 
-  <app-navbar></app-navbar>
+<ion-content fullscreen *ngIf="usuario">
 
+  <div class="main-container-profile">
+
+    <div class="header-profile-container">
+
+      <div class="profile-container">
+        <div class="profile-icon">
+          <ion-avatar></ion-avatar>
+        </div>
+
+        <div class="profile-text">
+          <p class="intro">¿Qué es lo que pediremos hoy?</p>
+          <p class="username">{{ usuario.nombre | uppercase }}</p>
+        </div>
+      </div>
+
+
+      <button class="notifications-btn">
+        <ion-icon name="notifications-outline"></ion-icon>
+      </button>
+
+    </div>
+
+    <div class="carrousel-container">
+    </div>
+
+    <div class="category-btn-container">
+      <button class="b-btn">Menú</button>
+      <button class="m-btn">Bebidas</button>
+    </div>
+
+    <div class="products-container">
+      <div class="product-card-container">
+        <div class="image-product-container"></div>
+
+        <div class="text-product-container">1/4 de Pollo a la Brasa</div>
+
+        <div class="product-subcontainer">
+          <div class="price-container">S/ 15.00</div>
+          <button class="add-product">
+            <ion-icon name="add-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="product-card-container">
+        <div class="image-product-container"></div>
+
+        <div class="text-product-container">1/4 de Pollo a la Brasa</div>
+
+        <div class="product-subcontainer">
+          <div class="price-container">S/ 15.00</div>
+          <button class="add-product">
+            <ion-icon name="add-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
+
+
+
+      <ion-card *ngIf="usuario">
+        <ion-card-header>
+          <ion-card-title>HOME</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p><strong>Dirección:</strong> {{ usuario.direccion }}</p>
+          <p><strong>Teléfono:</strong> {{ usuario.telefono }}</p>
+          <p><strong>Correo:</strong> {{ usuario.correo }}</p>
+          <ion-buttons slot="end">
+            <ion-button (click)="logout()">Cerrar sesión</ion-button>
+          </ion-buttons>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card *ngIf="usuario">
+        <ion-card-header>
+          <ion-card-title>HOME</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p><strong>Dirección:</strong> {{ usuario.direccion }}</p>
+          <p><strong>Teléfono:</strong> {{ usuario.telefono }}</p>
+          <p><strong>Correo:</strong> {{ usuario.correo }}</p>
+          <ion-buttons slot="end">
+            <ion-button (click)="logout()">Cerrar sesión</ion-button>
+          </ion-buttons>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
 </ion-content>
+<app-navbar></app-navbar>

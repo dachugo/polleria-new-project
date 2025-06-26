@@ -53,3 +53,13 @@ button:hover {
   background-color: $primary-red;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
+
+button.active {
+  background-color: $primary-red;
+
+  ion-icon {
+    color: $hover-yellow;
+  }
+
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+}
