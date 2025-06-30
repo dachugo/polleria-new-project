@@ -18,7 +18,13 @@
     <section class="profile-section-container">
       <div class="welcome-section-container">
         <p>Hola de nuevo!</p>
-        <h1>{{usuario.nombre | uppercase}}</h1>
+        <div [formGroup]="credentials">
+          <h1 *ngIf="!isEditing">{{ credentials.get('name')?.value | uppercase }}</h1>
+          <ion-textarea class="name-input" *ngIf="isEditing" formControlName="name" placeholder="Nombres Completos"
+            (ionInput)="onlyCharacteres($event)" autoGrow="true">
+          </ion-textarea>
+
+        </div>
       </div>
       <div class="profile-photo-container">
       </div>
@@ -28,17 +34,22 @@
       <form [formGroup]="credentials">
         <div class="inputs-container">
           <p>Correo:</p>
-          <ion-input formControlName="email" type="email"></ion-input>
+          <ion-input [readonly]="inputDisabled" formControlName="email" type="email"
+            [ngClass]="{ 'disabled-input': !isDisabled }"></ion-input>
           <p>Dirección:</p>
-          <ion-input formControlName="address" type="text"></ion-input>
+          <ion-input formControlName="address" [readonly]="!isEditing" (ionInput)="onlyAlphanumeric($event)"
+            type="text">
+          </ion-input>
           <p>Teléfono:</p>
-          <ion-input formControlName="phone" type="tel"></ion-input>
+          <ion-input formControlName="phone" [readonly]="!isEditing" (ionInput)="onlyNumbers($event)" type="tel">
+          </ion-input>
         </div>
 
         <section class="btn-container">
-          <ion-button class="save-btn">Guardar</ion-button>
+          <ion-button class="save-btn" (click)="saveChangesEdit()" [disabled]="!isEditing">Guardar</ion-button>
           <div class="second-row-btn">
-            <ion-button class="edit-btn">Editar</ion-button>
+            <ion-button class="edit-btn" (click)="editProfile()" *ngIf="!isEditing">Editar</ion-button>
+            <ion-button class="cancel-btn" *ngIf="isEditing" (click)="cancelEdit()">Cancelar</ion-button>
             <ion-button class="logout-btn" (click)="logout()">Salir</ion-button>
           </div>
         </section>

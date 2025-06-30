@@ -31,15 +31,58 @@ import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage {
+  isEditing = false;
+  isDisabled = false;
+  inputDisabled = true;
+
+  // ✅ VALIDADOR DE SOLO LETRAS
+  nameValidator: ValidatorFn = (control) => {
+    const value = control.value || '';
+    const valid = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/.test(value);
+    return valid ? null : { invalidName: true };
+  };
+
+  // ✅ VALIDADOR DE DIRECCIÓN LETRAS Y NÚMEROS
+  addressValidator: ValidatorFn = (control) => {
+    const value = control.value || '';
+    const valid = /^[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ\s]+$/.test(value);
+    return valid ? null : { invalidAddress: true };
+  };
+
+  // ✅ VALIDADOR DE SOLO NÚMEROS
+  phoneValidator: ValidatorFn = (control) => {
+    const value = control.value || '';
+    const valid = /^[0-9]+$/.test(value);
+    return valid ? null : { invalidPhone: true };
+  };
+
+  // ✅ FUNCIONES DE LIMPIEZA EN TIEMPO REAL (EXPERIENCIA DE USUARIO)
+  onlyCharacteres(event: any) {
+    const value = event.target.value;
+    event.target.value = value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, '');
+  }
+
+  onlyAlphanumeric(event: any) {
+    const value = event.target.value;
+    event.target.value = value.replace(/[^A-Za-z0-9ÁÉÍÓÚáéíóúÑñ\s]/g, '');
+  }
+
+  onlyNumbers(event: any) {
+    const value = event.target.value;
+    event.target.value = value.replace(/[^0-9]/g, '');
+  }
+
+  // ✅ FORMULARIO REACTIVO
   credentials = this.fb.nonNullable.group({
-    name: ['', [Validators.required]],
-    lastname: ['', [Validators.required]],
+    name: ['', [Validators.required, this.nameValidator]],
+    lastname: ['', [Validators.required, this.nameValidator]],
     email: ['', [Validators.required, Validators.email]],
-    address: ['', [Validators.required]],
-    phone: ['', [Validators.required]],
+    address: ['', [Validators.required, this.addressValidator]],
+    phone: ['', [Validators.required, this.phoneValidator]],
   });
 
   usuario: any;
+
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -50,18 +93,28 @@ export class ProfilePage {
   ) {}
 
   async ngOnInit() {
-    const stored = localStorage.getItem('perfil');
-    if (stored) {
-      this.usuario = JSON.parse(stored);
-      this.initializeFormWithUserData();
+    const { data, error } =
+      await this.authService.supabaseClient.auth.getUser();
+    if (error || !data.user) {
+      console.error('No se pudo obtener el usuario:', error);
+      return;
     }
+
+    this.usuario = data.user;
+
+    const perfil = await this.authService.getUserProfile();
+    if (perfil) {
+      this.usuario = { ...this.usuario, ...perfil };
+    }
+
+    this.initializeFormWithUserData();
   }
 
   private initializeFormWithUserData() {
     this.credentials.patchValue({
       name: this.usuario.nombre || '',
       lastname: this.usuario.apellido || '',
-      email: this.usuario.email || '',
+      email: this.usuario.email || this.usuario.correo || '',
       address: this.usuario.direccion || '',
       phone: this.usuario.telefono || '',
     });
@@ -72,6 +125,64 @@ export class ProfilePage {
     this.router.navigate(['/']);
   }
 
-  async editProfile() {}
-  async saveChangesEdit() {}
+  editProfile() {
+    this.isEditing = true;
+  }
+
+  cancelEdit() {
+    this.isEditing = false;
+    this.initializeFormWithUserData();
+  }
+
+  async saveChangesEdit() {
+    const updated = this.credentials.getRawValue();
+
+    const cambios: any = {};
+    if (updated.name !== this.usuario.nombre) cambios.nombre = updated.name;
+    if (updated.address !== this.usuario.direccion)
+      cambios.direccion = updated.address;
+    if (updated.phone !== this.usuario.telefono)
+      cambios.telefono = updated.phone;
+
+    if (Object.keys(cambios).length === 0) {
+      await this.alertController
+        .create({
+          header: 'Sin cambios',
+          message: 'No realizaste ninguna modificación.',
+          buttons: ['OK'],
+        })
+        .then((alert) => alert.present());
+      return;
+    }
+
+    const { error } = await this.authService.supabaseClient
+      .from('usuarios')
+      .update(cambios)
+      .eq('id', this.authService.getCurrentUserId());
+
+    if (error) {
+      console.error('Error al guardar:', error);
+      await this.alertController
+        .create({
+          header: 'Error',
+          message: 'Ocurrió un error al guardar los cambios.',
+          buttons: ['OK'],
+        })
+        .then((alert) => alert.present());
+      return;
+    }
+
+    this.usuario = { ...this.usuario, ...cambios };
+    localStorage.setItem('perfil', JSON.stringify(this.usuario));
+
+    this.isEditing = false;
+
+    await this.alertController
+      .create({
+        header: 'Éxito',
+        message: 'Perfil actualizado correctamente.',
+        buttons: ['OK'],
+      })
+      .then((alert) => alert.present());
+  }
 }
