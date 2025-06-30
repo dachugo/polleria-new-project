@@ -1,14 +1,52 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>profile</ion-title>
-  </ion-toolbar>
-</ion-header>
+<div class="background-image"></div>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">profile</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content fullscreen *ngIf="usuario">
+
+  <div class="main-container-profile">
+
+    <section class="header-profile-container">
+      <div class="profile-container">
+        <div class="profile-icon">
+          <ion-avatar></ion-avatar>
+        </div>
+      </div>
+      <button class="notifications-btn">
+        <ion-icon name="notifications-outline"></ion-icon>
+      </button>
+    </section>
+
+    <section class="profile-section-container">
+      <div class="welcome-section-container">
+        <p>Hola de nuevo!</p>
+        <h1>{{usuario.nombre | uppercase}}</h1>
+      </div>
+      <div class="profile-photo-container">
+      </div>
+    </section>
+
+    <section class="profile-inputs-container">
+      <form [formGroup]="credentials">
+        <div class="inputs-container">
+          <p>Correo:</p>
+          <ion-input formControlName="email" type="email"></ion-input>
+          <p>Dirección:</p>
+          <ion-input formControlName="address" type="text"></ion-input>
+          <p>Teléfono:</p>
+          <ion-input formControlName="phone" type="tel"></ion-input>
+        </div>
+
+        <section class="btn-container">
+          <ion-button class="save-btn">Guardar</ion-button>
+          <div class="second-row-btn">
+            <ion-button class="edit-btn">Editar</ion-button>
+            <ion-button class="logout-btn" (click)="logout()">Salir</ion-button>
+          </div>
+        </section>
+
+      </form>
+    </section>
+
+
+  </div>
 </ion-content>
 <app-navbar></app-navbar>

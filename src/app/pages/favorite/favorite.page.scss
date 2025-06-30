@@ -152,7 +152,7 @@ button:hover {
   align-items: center;
 
   img {
-    width: 80%; // Ajusta como desees
+    width: 10em; // Ajusta como desees
     height: auto;
     object-fit: contain;
   }
@@ -171,10 +171,11 @@ button:hover {
 }
 
 .logo-section-container p:last-of-type {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   color: $text-dark;
   margin-top: 2px;
+  font-family: $font-family;
 }
 
 .products-container {

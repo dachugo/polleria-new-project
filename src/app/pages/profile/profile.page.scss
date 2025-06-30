@@ -1,0 +1,278 @@
+$primary-yellow: #fab222;
+$primary-green: #417533;
+$secondary-green: #3b6630;
+$primary-red: #8d2516;
+$hover-yellow: #e4a21d;
+$color-dark: #120000;
+$white: #ffffff;
+$white-color: #f4f4f4;
+$light-gray: #737373;
+$text-dark: #151515;
+$font-family: "Inter", sans-serif;
+
+p {
+  margin: 0;
+  font-weight: 500;
+  font-size: 15px;
+  font-family: $font-family;
+}
+
+@mixin cover-background($url) {
+  background: url($url) no-repeat center center/cover;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.background-image {
+  @include cover-background("/assets/img/background-food-vector.svg");
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+}
+
+ion-content {
+  position: relative;
+  z-index: 1;
+  --background: transparent;
+  display: block;
+  width: 100%;
+}
+
+ion-card {
+  margin: 0;
+}
+
+button {
+  border: 3px solid $color-dark;
+  background: #{$primary-yellow};
+  border-radius: 40px;
+  width: 35%;
+  padding: 10px 0px;
+  color: $primary-red;
+  font-size: 20px;
+  font-family: $font-family;
+  font-weight: 700;
+}
+
+button:hover {
+  background: #{$primary-red};
+  color: $primary-yellow;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+  ion-icon {
+    color: $primary-yellow;
+  }
+}
+
+.main-container-profile {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 90%;
+  padding: 3em 1.3em 0em 1.3em;
+}
+
+.header-profile-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.profile-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.profile-icon {
+  ion-avatar {
+    width: 48px;
+    height: 48px;
+    background-color: $primary-red;
+    border-radius: 50%;
+  }
+}
+
+.notifications-btn {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background-color: $primary-red;
+  border-radius: 50%;
+
+  ion-icon {
+    color: $primary-yellow;
+    font-size: 25px;
+  }
+}
+
+.profile-section-container {
+  display: flex;
+  margin: 10px;
+  padding: 10px;
+  gap: 20px;
+  width: 100%;
+  font-family: $font-family;
+  min-height: 10em;
+}
+
+.welcome-section-container {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  background-color: transparent;
+}
+
+.profile-photo-container {
+  width: 40%;
+  display: flex;
+  border-radius: 40px;
+  background-color: #d9d9d9;
+}
+
+.profile-section-container p,
+h1 {
+  margin: 0;
+}
+.profile-section-container h1 {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  margin-top: 5px;
+  font-size: 1.3em;
+  line-height: 1.1;
+  font-weight: 700;
+}
+
+.profile-inputs-container {
+  width: 100%;
+  margin-top: 10px;
+  padding: 25px;
+  height: 58% !important;
+  border-radius: 40px;
+  background-color: #e0e0e0;
+  --keyboard-offset: 0px;
+}
+
+ion-content {
+  --offset-top: 0px !important;
+  --offset-bottom: 0px !important;
+  --keyboard-offset: 0px !important;
+}
+
+label {
+  margin: 0;
+  padding: 0;
+}
+
+.inputs-container {
+  z-index: 10;
+  width: 100%;
+  gap: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+ion-input {
+  display: inline;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-size: 17px;
+  background-color: $white-color;
+  text-align: center;
+  height: 10px;
+  --min-height: 0px;
+  --max-height: 0px;
+  border: 3px solid #{$color-dark};
+  border-radius: 40px;
+  margin-bottom: 15px;
+  margin-top: 2px;
+}
+
+ion-input::part(native) {
+  width: 100%;
+  font-weight: normal;
+  font-family: $font-family;
+}
+
+.btn-container {
+  width: 100%;
+  gap: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+ion-button {
+  width: 100%;
+}
+
+ion-button::part(native) {
+  padding: 10px 10px;
+  width: 100%;
+  --border-radius: 10px;
+  font-size: 1rem; // se puede sobreescribir en clases
+  font-weight: normal;
+  font-family: $font-family; // si todos los botones lo usan
+  transition: var(--transition);
+}
+
+ion-button.save-btn::part(native) {
+  background: #150101;
+  color: $white-color;
+  border: 3px solid #{$color-dark};
+  font-size: 20px;
+  font-weight: 600;
+  border-radius: 40px;
+  --background-activated: #2b1a00;
+  --background-hover: #2b1a00;
+  --background-focused: #2b1a00;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+ion-button.edit-btn::part(native) {
+  background: $primary-green;
+  color: $white-color;
+  border: 3px solid #{$color-dark};
+  font-size: 20px;
+  font-weight: 600;
+  border-radius: 40px;
+  --background-activated: #{$primary-green};
+  --background-hover: #{$primary-green};
+  --background-focused: #{$primary-green};
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+}
+ion-button.logout-btn::part(native) {
+  background: #cacaca;
+  color: #646464;
+  border: 3px solid #cacaca;
+  font-size: 20px;
+  font-weight: 600;
+  border-radius: 40px;
+  --background-activated: #cacaca;
+  --background-hover: #cacaca;
+  --background-focused: #cacaca;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.second-row-btn {
+  gap: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
