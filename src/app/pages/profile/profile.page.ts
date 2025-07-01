@@ -31,6 +31,9 @@ import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage {
+  showAvatarModal = false;
+  pendingAvatarSelection = '';
+  initialAvatar = '';
   isEditing = false;
   isDisabled = false;
   inputDisabled = true;
@@ -47,21 +50,33 @@ export class ProfilePage {
 
   selectedAvatar: string = '/assets/img/df_chicken.svg';
 
-  async openAvatarSelector() {
-    const alert = await this.alertController.create({
-      header: 'Selecciona tu avatar',
-      inputs: this.avatarUrls.map((url) => ({
-        type: 'radio',
-        label: `<img src="${url}" width="50" height="50" style="border-radius:50%">`,
-        value: url,
-        handler: () => {
-          this.selectedAvatar = url;
-        },
-      })),
-      buttons: ['Elegir Avatar'],
-      cssClass: 'avatar-selector-alert',
-    });
+  openAvatarSelector() {
+    this.showAvatarModal = true;
+  }
 
+  closeAvatarSelector() {
+    this.showAvatarModal = false;
+  }
+
+  async confirmAvatarSelection(url: string) {
+    this.pendingAvatarSelection = url;
+    const alert = await this.alertController.create({
+      header: 'Confirmar',
+      message: '¿Elegir esta imagen como avatar?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+        },
+        {
+          text: 'Si',
+          handler: () => {
+            this.selectedAvatar = url;
+            this.closeAvatarSelector();
+          },
+        },
+      ],
+    });
     await alert.present();
   }
 
@@ -155,7 +170,7 @@ export class ProfilePage {
 
   async logout() {
     const alert = await this.alertController.create({
-      header: 'Confirmar Salida',
+      header: 'Cerrar Sesión',
       message: '¿Estás seguro de salir?',
       buttons: [
         {
@@ -179,11 +194,13 @@ export class ProfilePage {
 
   editProfile() {
     this.isEditing = true;
+    this.initialAvatar = this.selectedAvatar;
   }
 
   cancelEdit() {
     this.isEditing = false;
     this.initializeFormWithUserData();
+    this.selectedAvatar = this.initialAvatar;
   }
 
   async saveChangesEdit() {

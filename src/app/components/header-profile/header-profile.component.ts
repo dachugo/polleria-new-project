@@ -30,6 +30,14 @@ export class HeaderProfileComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   async ngOnInit() {
+    const cached = this.authService.getCachedProfile();
+    if (cached) {
+      this.username = cached.nombre || cached.email || 'Usuario';
+      if (cached.avatar) {
+        this.selectedAvatar = cached.avatar;
+      }
+    }
+
     const { data, error } =
       await this.authService.supabaseClient.auth.getUser();
     if (error || !data.user) {
@@ -37,20 +45,19 @@ export class HeaderProfileComponent implements OnInit {
       return;
     }
 
-    // No asignamos el email todavía
-    let tempName = '';
-
     // Busca el perfil en la tabla usuarios
     const perfil = await this.authService.getUserProfile();
     if (perfil) {
-      tempName = perfil.nombre || '';
+      this.username = perfil.nombre || data.user.email || 'Usuario';
       if (perfil.avatar) {
         this.selectedAvatar = perfil.avatar;
       }
     }
 
-    // Si no hay nombre en el perfil, recién considera el email
-    this.username = tempName || data.user.email || 'Usuario';
+    this.authService.setCachedProfile({
+      ...perfil,
+      email: data.user.email,
+    });
   }
 
   onNotifyClick() {

@@ -61,4 +61,16 @@
 
   </div>
 </ion-content>
+
+<div class="custom-avatar-modal" *ngIf="showAvatarModal">
+  <div class="modal-content">
+    <h2 class="text-modal">ELIJE TU AVATAR</h2>
+    <p>Elije el avatar que más te guste!</p>
+    <div class="avatar-grid">
+      <img *ngFor="let url of avatarUrls" [src]="url" (click)="confirmAvatarSelection(url)" />
+    </div>
+    <ion-button class="edit-avatar-btn" (click)=" closeAvatarSelector()">SALIR</ion-button>
+  </div>
+</div>
+
 <app-navbar></app-navbar>

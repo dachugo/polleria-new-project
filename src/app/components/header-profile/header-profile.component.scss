@@ -58,7 +58,8 @@ $font-family: "Inter", sans-serif;
   .username {
     font-weight: 700;
     font-size: 20px;
-    min-height: 50px;
+    max-height: 50px;
+    min-height: 30px;
     margin: 0;
     word-wrap: break-word;
     overflow-wrap: break-word;

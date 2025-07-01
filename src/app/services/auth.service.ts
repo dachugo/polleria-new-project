@@ -48,6 +48,19 @@ export class AuthService {
     this.loadUser();
   }
 
+  setCachedProfile(profile: any) {
+    localStorage.setItem('perfil', JSON.stringify(profile));
+  }
+
+  getCachedProfile(): any {
+    const perfil = localStorage.getItem('perfil');
+    return perfil ? JSON.parse(perfil) : null;
+  }
+
+  clearCachedProfile() {
+    localStorage.removeItem('perfil');
+  }
+
   private async loadUser() {
     const { data, error } = await this.supabase.auth.getUser();
     if (error) {
