@@ -35,28 +35,91 @@ export class ProfilePage {
   isDisabled = false;
   inputDisabled = true;
 
-  // ✅ VALIDADOR DE SOLO LETRAS
+  avatarUrls: string[] = [
+    'https://ruriirwkpcwkdqoxclbx.supabase.co/storage/v1/object/public/avatars//bad_chicken.svg',
+    'https://ruriirwkpcwkdqoxclbx.supabase.co/storage/v1/object/public/avatars//biirthday_chicken.svg',
+    'https://ruriirwkpcwkdqoxclbx.supabase.co/storage/v1/object/public/avatars//fresh_chicken.svg',
+    'https://ruriirwkpcwkdqoxclbx.supabase.co/storage/v1/object/public/avatars//girl_chicken.svg',
+    'https://ruriirwkpcwkdqoxclbx.supabase.co/storage/v1/object/public/avatars//photo_chicken.svg',
+  ];
+
+  selectedAvatar: string = '/assets/img/default_chicken.svg';
+
+  async openAvatarSelector() {
+    const alert = await this.alertController.create({
+      header: 'Selecciona tu avatar',
+      inputs: this.avatarUrls.map((url) => ({
+        type: 'radio',
+        label: `<img src="${url}" width="50" height="50" style="border-radius:50%">`,
+        value: url,
+        handler: () => {
+          this.selectedAvatar = url;
+        },
+      })),
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Guardar',
+          handler: async () => {
+            // Guarda en la BD
+            const { error } = await this.authService.supabaseClient
+              .from('usuarios')
+              .update({ avatar: this.selectedAvatar })
+              .eq('id', this.authService.getCurrentUserId());
+
+            if (error) {
+              console.error('Error al guardar avatar', error);
+              this.alertController
+                .create({
+                  header: 'Error',
+                  message: 'No se pudo guardar el avatar',
+                  buttons: ['OK'],
+                })
+                .then((alert) => alert.present());
+            } else {
+              localStorage.setItem(
+                'perfil',
+                JSON.stringify({
+                  ...this.usuario,
+                  avatar: this.selectedAvatar,
+                })
+              );
+              this.usuario.avatar = this.selectedAvatar;
+            }
+          },
+        },
+      ],
+      cssClass: 'avatar-selector-alert',
+    });
+
+    await alert.present();
+  }
+
+  // VALIDADOR DE SOLO LETRAS
   nameValidator: ValidatorFn = (control) => {
     const value = control.value || '';
     const valid = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/.test(value);
     return valid ? null : { invalidName: true };
   };
 
-  // ✅ VALIDADOR DE DIRECCIÓN LETRAS Y NÚMEROS
+  // VALIDADOR DE DIRECCIÓN LETRAS Y NÚMEROS
   addressValidator: ValidatorFn = (control) => {
     const value = control.value || '';
     const valid = /^[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ\s]+$/.test(value);
     return valid ? null : { invalidAddress: true };
   };
 
-  // ✅ VALIDADOR DE SOLO NÚMEROS
+  // VALIDADOR DE SOLO NÚMEROS
   phoneValidator: ValidatorFn = (control) => {
     const value = control.value || '';
     const valid = /^[0-9]+$/.test(value);
     return valid ? null : { invalidPhone: true };
   };
 
-  // ✅ FUNCIONES DE LIMPIEZA EN TIEMPO REAL (EXPERIENCIA DE USUARIO)
+  // FUNCIONES DE LIMPIEZA EN TIEMPO REAL (EXPERIENCIA DE USUARIO)
   onlyCharacteres(event: any) {
     const value = event.target.value;
     event.target.value = value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, '');
@@ -72,7 +135,7 @@ export class ProfilePage {
     event.target.value = value.replace(/[^0-9]/g, '');
   }
 
-  // ✅ FORMULARIO REACTIVO
+  // FORMULARIO REACTIVO
   credentials = this.fb.nonNullable.group({
     name: ['', [Validators.required, this.nameValidator]],
     lastname: ['', [Validators.required, this.nameValidator]],

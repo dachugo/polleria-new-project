@@ -26,8 +26,13 @@
 
         </div>
       </div>
-      <div class="profile-photo-container">
+      <div class="profile-photo-container"
+        [ngStyle]="{'background-image': selectedAvatar ? 'url(' + selectedAvatar + ')' : 'url(/assets/img/default-avatar.png)'}">
+        <button class="edit-avatar-btn" (click)="openAvatarSelector()">
+          <ion-icon name="create-outline"></ion-icon>
+        </button>
       </div>
+
     </section>
 
     <section class="profile-inputs-container">

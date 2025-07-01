@@ -137,9 +137,32 @@ button:hover {
 
 .profile-photo-container {
   width: 40%;
-  display: flex;
+  border: 3px solid $color-dark;
   border-radius: 40px;
   background-color: #d9d9d9;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  aspect-ratio: 1/1; // cuadrado
+
+  .edit-avatar-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    ion-icon {
+      color: $white;
+      font-size: 20px;
+    }
+  }
 }
 
 .profile-section-container p,
@@ -273,15 +296,16 @@ ion-button.save-btn::part(native) {
 }
 
 ion-button.edit-btn::part(native) {
-  background: $primary-green;
-  color: $white-color;
+  background: $primary-yellow;
+  color: $primary-red;
+  font-family: $font-family;
   border: 3px solid #{$color-dark};
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 700;
   border-radius: 40px;
-  --background-activated: #{$primary-green};
-  --background-hover: #{$primary-green};
-  --background-focused: #{$primary-green};
+  --background-activated: #{$primary-yellow};
+  --background-hover: #{$primary-yellow};
+  --background-focused: #{$primary-yellow};
   transition: background-color 0.3s ease, color 0.3s ease,
     border-color 0.3s ease;
 }
