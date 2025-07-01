@@ -5,11 +5,18 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
+import { HeaderProfileComponent } from 'src/app/components/header-profile/header-profile.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, NavbarComponent],
+  imports: [
+    IonicModule,
+    CommonModule,
+    FormsModule,
+    NavbarComponent,
+    HeaderProfileComponent,
+  ],
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })

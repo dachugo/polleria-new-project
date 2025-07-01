@@ -5,11 +5,18 @@ import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from 'src/app/components/navbar/navbar.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { HeaderProfileComponent } from 'src/app/components/header-profile/header-profile.component';
 
 @Component({
   selector: 'app-favorite',
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, NavbarComponent],
+  imports: [
+    IonicModule,
+    CommonModule,
+    FormsModule,
+    NavbarComponent,
+    HeaderProfileComponent,
+  ],
   templateUrl: './favorite.page.html',
   styleUrls: ['./favorite.page.scss'],
 })
@@ -17,10 +24,19 @@ export class FavoritePage implements OnInit {
   usuario: any;
   constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit() {
-    const stored = localStorage.getItem('perfil');
-    if (stored) {
-      this.usuario = JSON.parse(stored);
+  async ngOnInit() {
+    const { data, error } =
+      await this.authService.supabaseClient.auth.getUser();
+    if (error || !data.user) {
+      console.error('No se pudo obtener el usuario:', error);
+      return;
+    }
+
+    this.usuario = data.user;
+
+    const perfil = await this.authService.getUserProfile();
+    if (perfil) {
+      this.usuario = { ...this.usuario, ...perfil };
     }
   }
 
@@ -28,4 +44,6 @@ export class FavoritePage implements OnInit {
     await this.authService.signOut();
     this.router.navigate(['/']);
   }
+
+  async abrirNotificaciones() {}
 }

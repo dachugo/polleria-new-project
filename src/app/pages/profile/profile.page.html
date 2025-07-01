@@ -4,15 +4,8 @@
 
   <div class="main-container-profile">
 
-    <section class="header-profile-container">
-      <div class="profile-container">
-        <div class="profile-icon">
-          <ion-avatar></ion-avatar>
-        </div>
-      </div>
-      <button class="notifications-btn">
-        <ion-icon name="notifications-outline"></ion-icon>
-      </button>
+    <section class="header-profile-edit-container">
+      <h1 class="title-section">EDITAR PERFIL</h1>
     </section>
 
     <section class="profile-section-container">
@@ -28,7 +21,7 @@
       </div>
       <div class="profile-photo-container"
         [ngStyle]="{'background-image': selectedAvatar ? 'url(' + selectedAvatar + ')' : 'url(/assets/img/default-avatar.png)'}">
-        <button class="edit-avatar-btn" (click)="openAvatarSelector()">
+        <button class="edit-avatar-btn" *ngIf="isEditing" (click)="openAvatarSelector()">
           <ion-icon name="create-outline"></ion-icon>
         </button>
       </div>
@@ -51,7 +44,10 @@
         </div>
 
         <section class="btn-container">
-          <ion-button class="save-btn" (click)="saveChangesEdit()" [disabled]="!isEditing">Guardar</ion-button>
+          <ion-button class="save-btn" (click)="isEditing && saveChangesEdit()"
+            [ngClass]="{'disabled-save-btn': !isEditing}">
+            Guardar
+          </ion-button>
           <div class="second-row-btn">
             <ion-button class="edit-btn" (click)="editProfile()" *ngIf="!isEditing">Editar</ion-button>
             <ion-button class="cancel-btn" *ngIf="isEditing" (click)="cancelEdit()">Cancelar</ion-button>

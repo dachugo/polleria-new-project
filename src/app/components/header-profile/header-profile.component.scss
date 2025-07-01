@@ -1,0 +1,86 @@
+$primary-yellow: #fab222;
+$primary-green: #417533;
+$secondary-green: #3b6630;
+$primary-red: #8d2516;
+$hover-yellow: #e4a21d;
+$color-dark: #120000;
+$white: #ffffff;
+$light-gray: #737373;
+$text-dark: #151515;
+$font-family: "Inter", sans-serif;
+
+@mixin cover-background($url) {
+  background: url($url) no-repeat center center/cover;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.header-profile-container {
+  display: flex;
+  align-items: center;
+  min-height: 65px;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.profile-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  max-width: 75%;
+  flex-shrink: 1;
+}
+.profile-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  background-color: $primary-red;
+  border: 2px solid $color-dark;
+  flex-shrink: 0;
+}
+
+.profile-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  font-family: $font-family;
+
+  .intro {
+    font-size: 12px;
+    color: $text-dark;
+    margin: 0;
+  }
+
+  .username {
+    font-weight: 700;
+    font-size: 20px;
+    min-height: 50px;
+    margin: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+.notifications-btn {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background-color: $primary-red;
+  border: none;
+
+  ion-icon {
+    color: $primary-yellow;
+    font-size: 25px;
+  }
+
+  &:hover {
+    background-color: darken($primary-red, 10%);
+  }
+}

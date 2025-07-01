@@ -3,22 +3,7 @@
 <ion-content fullscreen *ngIf="usuario">
 
   <div class="main-container-profile">
-
-    <div class="header-profile-container">
-      <div class="profile-container">
-        <div class="profile-icon">
-          <ion-avatar></ion-avatar>
-        </div>
-        <div class="profile-text">
-          <p class="intro">¿Qué es lo que pediremos hoy?</p>
-          <p class="username">{{ usuario.nombre | uppercase }}</p>
-        </div>
-      </div>
-      <button class="notifications-btn">
-        <ion-icon name="notifications-outline"></ion-icon>
-      </button>
-    </div>
-
+    <app-header-profile></app-header-profile>
     <div class="logo-section-container">
       <div class="logo-container">
         <img src="/assets/img/fancy-chicken-image.svg" alt="Logo Carrito" />

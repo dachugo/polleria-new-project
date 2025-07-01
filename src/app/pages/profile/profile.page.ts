@@ -41,9 +41,11 @@ export class ProfilePage {
     'https://ruriirwkpcwkdqoxclbx.supabase.co/storage/v1/object/public/avatars//fresh_chicken.svg',
     'https://ruriirwkpcwkdqoxclbx.supabase.co/storage/v1/object/public/avatars//girl_chicken.svg',
     'https://ruriirwkpcwkdqoxclbx.supabase.co/storage/v1/object/public/avatars//photo_chicken.svg',
+    'https://ruriirwkpcwkdqoxclbx.supabase.co/storage/v1/object/public/avatars//default_chicken.svg',
+    'https://ruriirwkpcwkdqoxclbx.supabase.co/storage/v1/object/public/avatars//chef_chicken.svg',
   ];
 
-  selectedAvatar: string = '/assets/img/default_chicken.svg';
+  selectedAvatar: string = '/assets/img/df_chicken.svg';
 
   async openAvatarSelector() {
     const alert = await this.alertController.create({
@@ -56,42 +58,7 @@ export class ProfilePage {
           this.selectedAvatar = url;
         },
       })),
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-        },
-        {
-          text: 'Guardar',
-          handler: async () => {
-            // Guarda en la BD
-            const { error } = await this.authService.supabaseClient
-              .from('usuarios')
-              .update({ avatar: this.selectedAvatar })
-              .eq('id', this.authService.getCurrentUserId());
-
-            if (error) {
-              console.error('Error al guardar avatar', error);
-              this.alertController
-                .create({
-                  header: 'Error',
-                  message: 'No se pudo guardar el avatar',
-                  buttons: ['OK'],
-                })
-                .then((alert) => alert.present());
-            } else {
-              localStorage.setItem(
-                'perfil',
-                JSON.stringify({
-                  ...this.usuario,
-                  avatar: this.selectedAvatar,
-                })
-              );
-              this.usuario.avatar = this.selectedAvatar;
-            }
-          },
-        },
-      ],
+      buttons: ['Elegir Avatar'],
       cssClass: 'avatar-selector-alert',
     });
 
@@ -168,6 +135,9 @@ export class ProfilePage {
     const perfil = await this.authService.getUserProfile();
     if (perfil) {
       this.usuario = { ...this.usuario, ...perfil };
+      if (perfil.avatar) {
+        this.selectedAvatar = perfil.avatar;
+      }
     }
 
     this.initializeFormWithUserData();
@@ -184,8 +154,27 @@ export class ProfilePage {
   }
 
   async logout() {
-    await this.authService.signOut();
-    this.router.navigate(['/']);
+    const alert = await this.alertController.create({
+      header: 'Confirmar Salida',
+      message: '¿Estás seguro de salir?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Salir',
+          handler: async () => {
+            localStorage.clear();
+            sessionStorage.clear();
+
+            await this.authService.signOut();
+            this.router.navigate(['/']);
+          },
+        },
+      ],
+    });
+    await alert.present();
   }
 
   editProfile() {
@@ -206,6 +195,8 @@ export class ProfilePage {
       cambios.direccion = updated.address;
     if (updated.phone !== this.usuario.telefono)
       cambios.telefono = updated.phone;
+    if (this.selectedAvatar !== this.usuario.avatar)
+      cambios.avatar = this.selectedAvatar;
 
     if (Object.keys(cambios).length === 0) {
       await this.alertController
@@ -246,6 +237,9 @@ export class ProfilePage {
         message: 'Perfil actualizado correctamente.',
         buttons: ['OK'],
       })
-      .then((alert) => alert.present());
+      .then((alert) => alert.present())
+      .then(() => {
+        location.reload();
+      });
   }
 }

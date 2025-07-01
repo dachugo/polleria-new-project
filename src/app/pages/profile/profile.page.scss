@@ -2,6 +2,7 @@ $primary-yellow: #fab222;
 $primary-green: #417533;
 $secondary-green: #3b6630;
 $primary-red: #8d2516;
+$hover-red: #63170b;
 $hover-yellow: #e4a21d;
 $color-dark: #120000;
 $white: #ffffff;
@@ -69,18 +70,38 @@ button:hover {
 }
 
 .main-container-profile {
-  display: flex;
   flex-direction: column;
   width: 100%;
   height: 90%;
+  display: block;
   padding: 3em 1.3em 0em 1.3em;
+  box-sizing: border-box;
+  overflow-y: auto;
 }
 
-.header-profile-container {
+.header-profile-edit-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  flex-direction: column;
+  background-color: $primary-red;
+  border-radius: 10px;
+  padding: 10px 20px;
+  border: 3px solid $color-dark;
+}
+
+.title-section {
+  font-family: $font-family;
+  font-weight: 900;
+  font-size: 2em;
+  color: $primary-yellow;
+}
+
+.subtitle-section {
+  font-family: $font-family;
+  font-weight: 500;
+  font-size: 15px;
+  color: $primary-red;
 }
 
 .profile-container {
@@ -91,12 +112,13 @@ button:hover {
 }
 
 .profile-icon {
-  ion-avatar {
-    width: 48px;
-    height: 48px;
-    background-color: $primary-red;
-    border-radius: 50%;
-  }
+  width: 48px;
+  border: 2px solid $color-dark;
+  height: 48px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  background-color: $primary-red; // por si no carga imagen
 }
 
 .notifications-btn {
@@ -118,6 +140,7 @@ button:hover {
 .profile-section-container {
   display: flex;
   padding: 10px;
+  flex-direction: row;
   padding-top: 20px;
   gap: 10px;
   width: 100%;
@@ -129,7 +152,7 @@ button:hover {
   left: 0;
   display: flex;
   flex-direction: column;
-  width: 60%;
+  max-width: 60%;
   background-color: transparent;
   word-wrap: break-word; // Permite que el texto largo se divida en varias líneas
   overflow-wrap: break-word; // Similar, compatibilidad adicional
@@ -188,10 +211,14 @@ ion-input.name-input {
   width: 100%;
   margin-top: 10px;
   padding: 25px;
-  height: 58% !important;
+  height: 30em !important;
   border-radius: 40px;
   background-color: #e0e0e0;
   --keyboard-offset: 0px;
+
+  @media (min-width: 1024px) {
+    height: 85% !important;
+  }
 }
 
 ion-content {
@@ -282,17 +309,42 @@ ion-button::part(native) {
 }
 
 ion-button.save-btn::part(native) {
-  background: #150101;
-  color: $white-color;
+  background: $primary-red;
+  color: $primary-yellow;
   border: 3px solid #{$color-dark};
   font-size: 20px;
-  font-weight: 600;
+  font-family: $font-family;
+  font-weight: 700;
   border-radius: 40px;
-  --background-activated: #2b1a00;
-  --background-hover: #2b1a00;
-  --background-focused: #2b1a00;
+  --background-activated: $primary-red;
+  --background-hover: $hover-red;
+  --background-focused: $primary-red;
   transition: background-color 0.3s ease, color 0.3s ease,
     border-color 0.3s ease;
+}
+
+ion-button.save-btn[disabled]::part(native) {
+  opacity: 1 !important; // Refuerza
+  filter: none !important; // Quita opacidad de Ionic
+  pointer-events: auto !important; // Permite el hover aunque disabled (si quieres)
+  background: $hover-red;
+  color: $primary-red;
+  border-color: $hover-red;
+  --background-activated: $hover-red;
+  --background-hover: $hover-red;
+  --background-focused: $hover-red;
+}
+
+// Personaliza con clase adicional (más fiable)
+ion-button.save-btn.disabled-save-btn::part(native) {
+  background: $hover-red;
+  color: $primary-red;
+  border-color: $hover-red;
+  --background-activated: $hover-red;
+  --background-hover: $hover-red;
+  --background-focused: $hover-red;
+  opacity: 1;
+  filter: none;
 }
 
 ion-button.edit-btn::part(native) {
@@ -303,9 +355,9 @@ ion-button.edit-btn::part(native) {
   font-size: 20px;
   font-weight: 700;
   border-radius: 40px;
-  --background-activated: #{$primary-yellow};
-  --background-hover: #{$primary-yellow};
-  --background-focused: #{$primary-yellow};
+  --background-activated: #{$hover-yellow};
+  --background-hover: #{$hover-yellow};
+  --background-focused: #{$hover-yellow};
   transition: background-color 0.3s ease, color 0.3s ease,
     border-color 0.3s ease;
 }
