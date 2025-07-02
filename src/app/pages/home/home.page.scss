@@ -62,7 +62,7 @@ button:hover {
   flex-direction: column;
   width: 100%;
   height: 90%;
-  padding: 3em 1.3em 0em 1.3em;
+  padding: 3.3em 1.3em 0em 1.3em;
   box-sizing: border-box;
   overflow-y: auto;
 }
@@ -153,6 +153,27 @@ button:hover {
   gap: 15px;
   margin: 1.5em 0em;
 }
+.category-btn.active,
+.category-btn.active:hover {
+  background-color: #8d2516;
+  color: $primary-yellow;
+}
+
+.category-btn {
+  background-color: #fab222;
+  border: 3px solid $color-dark;
+  padding: 10px 10px;
+  border-radius: 30px;
+  font-weight: bold;
+  color: $primary-red;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.category-btn:not(.active):hover {
+  background-color: #8d2516;
+  color: $primary-yellow;
+}
 
 .products-container {
   display: grid;
@@ -163,88 +184,4 @@ button:hover {
   width: 100%;
   padding-bottom: 70px;
   box-sizing: border-box;
-}
-
-.product-card-container {
-  display: flex;
-  background-color: #f0ebeb;
-  height: 17em;
-  width: 100%;
-  border: 3px solid $color-dark;
-  border-radius: 40px;
-  padding: 15px 10px;
-  gap: 10px;
-  flex-direction: column;
-}
-
-.image-product-container {
-  display: flex;
-  background-color: #d9d9d9;
-  height: 10em;
-  border-radius: 40px;
-  width: 100%;
-}
-
-.text-product-container {
-  display: flex;
-  padding: 10px;
-  line-height: 1.1;
-  text-align: center;
-  font-family: $font-family;
-  font-size: 20px;
-  color: $secondary-green;
-  font-weight: 900;
-  background-color: #e6e6e6;
-  height: 4em;
-  border-radius: 40px;
-  width: 100%;
-}
-
-.product-subcontainer {
-  display: flex;
-  gap: 5px;
-  height: 3em;
-  border-radius: 40px;
-  width: 100%;
-}
-
-.price-container {
-  display: flex;
-  background-color: #d9d9d9;
-  height: 3em;
-  padding: 5px;
-  line-height: 1.1;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  font-family: $font-family;
-  font-size: 18px;
-  font-weight: 900;
-  width: 70%;
-  border-radius: 30px;
-  width: 100%;
-}
-
-.add-product {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #417533;
-  border: 3px solid $text-dark;
-  border-radius: 40px;
-  font-size: 20px;
-  padding: 0px;
-  width: 50%;
-
-  ion-icon {
-    color: #f0f0f0;
-    font-size: 30px;
-  }
-}
-
-.add-product:hover {
-  background-color: #3b6630;
-  ion-icon {
-    color: #f0f0f0;
-  }
 }

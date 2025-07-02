@@ -14,61 +14,8 @@
     </div>
 
     <div class="products-container">
-      <div class="product-card-container">
-        <div class="image-product-container"></div>
-
-        <div class="text-product-container">1/4 de Pollo a la Brasa</div>
-
-        <div class="product-subcontainer">
-          <div class="price-container">S/ 15.00</div>
-          <button class="add-product">
-            <ion-icon name="add-outline"></ion-icon>
-          </button>
-        </div>
-      </div>
-
-      <div class="product-card-container">
-        <div class="image-product-container"></div>
-
-        <div class="text-product-container">1/4 de Pollo a la Brasa</div>
-
-        <div class="product-subcontainer">
-          <div class="price-container">S/ 15.00</div>
-          <button class="add-product">
-            <ion-icon name="add-outline"></ion-icon>
-          </button>
-        </div>
-      </div>
-
-
-
-      <ion-card *ngIf="usuario">
-        <ion-card-header>
-          <ion-card-title>HOME</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <p><strong>Dirección:</strong> {{ usuario.direccion }}</p>
-          <p><strong>Teléfono:</strong> {{ usuario.telefono }}</p>
-          <p><strong>Correo:</strong> {{ usuario.correo }}</p>
-          <ion-buttons slot="end">
-            <ion-button (click)="logout()">Cerrar sesión</ion-button>
-          </ion-buttons>
-        </ion-card-content>
-      </ion-card>
-
-      <ion-card *ngIf="usuario">
-        <ion-card-header>
-          <ion-card-title>HOME</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <p><strong>Dirección:</strong> {{ usuario.direccion }}</p>
-          <p><strong>Teléfono:</strong> {{ usuario.telefono }}</p>
-          <p><strong>Correo:</strong> {{ usuario.correo }}</p>
-          <ion-buttons slot="end">
-            <ion-button (click)="logout()">Cerrar sesión</ion-button>
-          </ion-buttons>
-        </ion-card-content>
-      </ion-card>
+      <app-product-card *ngFor="let producto of productos" [name]="producto.nombre" [price]="producto.precio"
+        [imageUrl]="producto.imagen_url" (addClicked)="agregarAlCarrito(producto)"></app-product-card>
     </div>
   </div>
 </ion-content>
