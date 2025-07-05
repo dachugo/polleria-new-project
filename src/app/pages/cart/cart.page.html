@@ -14,8 +14,8 @@
     </div>
 
     <div class="products-container">
-      <app-product-card *ngFor="let producto of productos" [name]="producto.nombre" [price]="producto.precio"
-        [imageUrl]="producto.imagen_url" (addClicked)="agregarAlCarrito(producto)"></app-product-card>
+      <app-product-card *ngFor="let producto of productos" [id]="producto.id" [name]="producto.nombre"
+        [price]="producto.precio" [imageUrl]="producto.imagen_url"></app-product-card>
     </div>
   </div>
 </ion-content>

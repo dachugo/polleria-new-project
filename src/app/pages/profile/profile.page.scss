@@ -153,6 +153,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   max-width: 60%;
+  min-width: 60%;
   background-color: transparent;
   word-wrap: break-word; // Permite que el texto largo se divida en varias líneas
   overflow-wrap: break-word; // Similar, compatibilidad adicional

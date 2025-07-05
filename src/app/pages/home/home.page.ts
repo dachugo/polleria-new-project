@@ -23,6 +23,8 @@ import { ProductCardComponent } from 'src/app/components/product-card/product-ca
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+  isInCartMap: { [id: string]: boolean } = {};
+  isInFavMap: { [id: string]: boolean } = {};
   categorySelected: 'all' | 'menu' | 'bebidas' = 'all';
   productosFiltrados: any[] = [];
   usuario: any;
@@ -34,6 +36,7 @@ export class HomePage implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   async ngOnInit() {
+    await this.refreshStates();
     const stored = localStorage.getItem('perfil');
     if (stored) {
       this.usuario = JSON.parse(stored);
@@ -45,15 +48,11 @@ export class HomePage implements OnInit {
       .eq('disponible', true);
 
     if (error) {
-      console.error('Error al cargasr los productos:', error);
+      console.error('Error al cargar los productos:', error);
       return;
     }
     this.productos = data || [];
     this.filtrarProductos();
-  }
-
-  agregarAlCarrito(producto: any) {
-    console.log('Producto agregado:', producto);
   }
 
   filtrarProductos() {
@@ -77,5 +76,26 @@ export class HomePage implements OnInit {
       this.categorySelected = categoria;
     }
     this.filtrarProductos();
+  }
+
+  async refreshStates() {
+    const userId = this.authService.getCurrentUserId();
+    if (!userId) return;
+
+    const { data: carrito } = await this.authService.supabaseClient
+      .from('carrito')
+      .select('producto_id')
+      .eq('usuario_id', userId);
+
+    this.isInCartMap = {};
+    (carrito || []).forEach((c) => (this.isInCartMap[c.producto_id] = true));
+
+    const { data: favs } = await this.authService.supabaseClient
+      .from('favoritos')
+      .select('producto_id')
+      .eq('usuario_id', userId);
+
+    this.isInFavMap = {};
+    (favs || []).forEach((f) => (this.isInFavMap[f.producto_id] = true));
   }
 }

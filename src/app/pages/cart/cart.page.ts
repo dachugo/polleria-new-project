@@ -23,8 +23,13 @@ import { ProductCardComponent } from 'src/app/components/product-card/product-ca
   styleUrls: ['./cart.page.scss'],
 })
 export class CartPage implements OnInit {
+  categorySelected: 'all' | 'menu' | 'bebidas' = 'all';
+  productosFiltrados: any[] = [];
   usuario: any;
   productos: any[] = [];
+
+  readonly MENU_ID = '9c094064-ee42-489f-b90b-7c422358dabe';
+  readonly BEBIDAS_ID = '2cff7f95-ca3c-44a7-918e-31972aa08d6e';
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -34,24 +39,38 @@ export class CartPage implements OnInit {
       this.usuario = JSON.parse(stored);
     }
 
-    const { data, error } = await this.authService.supabaseClient
-      .from('productos')
-      .select('*');
-
-    console.log('Productos data:', data);
-    console.log('Productos error:', error);
+    const { data, error } = await this.authService.supabaseClient.from(
+      'carrito'
+    ).select(`
+        id,
+        cantidad,
+        producto:producto_id(id,nombre,descripcion,precio,imagen_url,categoria_id
+        )`);
 
     if (error) {
-      console.error('Error al cargar productos:', error);
+      console.error('Error al cargar los productos:', error);
       return;
     }
-
-    this.productos = data || [];
+    this.productos = (data || []).map((item) => ({
+      ...item.producto,
+      cantidad: item.cantidad,
+    }));
+    this.productosFiltrados = this.productos;
+    this.filtrarProductos();
   }
 
-  agregarAlCarrito(producto: any) {
-    console.log('Producto agregado:', producto);
-    // Aquí llamas a un servicio que agregue el producto al carrito
+  filtrarProductos() {
+    if (this.categorySelected === 'menu') {
+      this.productosFiltrados = this.productos.filter(
+        (p) => p.categoria_id === this.MENU_ID
+      );
+    } else if (this.categorySelected === 'bebidas') {
+      this.productosFiltrados = this.productos.filter(
+        (p) => p.categoria_id === this.BEBIDAS_ID
+      );
+    } else {
+      this.productosFiltrados = this.productos;
+    }
   }
 
   async logout() {

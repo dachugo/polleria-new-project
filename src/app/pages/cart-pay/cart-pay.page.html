@@ -1,0 +1,34 @@
+<ion-content fullscreen>
+  <section class="main-container-cart">
+    <h1 class="cart-title">Tu Canasta</h1>
+
+    <div *ngIf="cartItems.length === 0" class="empty-cart">
+      <p>No hay productos en tu canasta.</p>
+    </div>
+
+    <ion-list *ngIf="cartItems.length > 0">
+      <ion-item *ngFor="let item of cartItems">
+        <ion-thumbnail slot="start">
+          <img [src]="item.producto.imagen_url">
+        </ion-thumbnail>
+        <ion-label>
+          <h2>{{ item.producto.nombre }}</h2>
+          <p>S/ {{ (item.producto.precio * item.cantidad) | number:'1.2-2' }}</p>
+        </ion-label>
+        <div class="quantity-controls">
+          <button (click)="cambiarCantidad(item, -1)">-</button>
+          <span>{{ item.cantidad }}</span>
+          <button (click)="cambiarCantidad(item, 1)" [disabled]="item.cantidad >= 10">+</button>
+        </div>
+      </ion-item>
+    </ion-list>
+
+    <div class="cart-summary" *ngIf="cartItems.length > 0">
+      <p>Total a pagar: <strong>S/ {{ total | number:'1.2-2' }}</strong></p>
+      <div class="cart-actions">
+        <button class="empty-cart-btn" (click)="clearCart()">Vaciar Canasta</button>
+        <button class="checkout-btn" (click)="irAPagar()">Ir a Pagar</button>
+      </div>
+    </div>
+  </section>
+</ion-content>

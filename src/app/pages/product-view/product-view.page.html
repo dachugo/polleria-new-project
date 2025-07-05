@@ -1,0 +1,48 @@
+<div class="background-image"></div>
+
+<ion-content fullscreen>
+  <section class="main-container-profile" *ngIf="producto">
+    <app-header-profile></app-header-profile>
+
+    <button class="btn-back" (click)="goBack()">
+      <ion-icon name="arrow-back-outline">
+      </ion-icon>
+      <p>Regresar</p>
+    </button>
+
+    <section class="logo-section-container">
+      <div class="logo-container" [ngStyle]="{'background-image': 'url(' + producto.imagen_url + ')'}">
+      </div>
+    </section>
+
+    <section class="product-main-title">
+      <div class="product-title">{{ producto.nombre | uppercase }}</div>
+      <div class="options-order">
+        <button class="fav-btn" [ngClass]="{'in-fav': isInFavMap[producto.id]}" (click)="toggleFavorites(producto.id)">
+          <ion-icon [name]="isInFavMap[producto.id] ? 'heart-circle-outline':'heart-dislike-circle-outline'"></ion-icon>
+        </button>
+
+        <button class="cart-btn" [ngClass]="{'in-cart': isInCartMap[producto.id]}" (click)="toggleCarrito(producto.id)">
+          <ion-icon [name]="isInCartMap[producto.id] ? 'cart' : 'cart-outline'"></ion-icon>
+        </button>
+
+      </div>
+    </section>
+    <section class="product-description">
+      <p>{{ producto.descripcion }}</p>
+    </section>
+  </section>
+</ion-content>
+
+<section class="product-main-price" *ngIf="producto">
+  <div class="price-product-container">
+    <p>Total:</p>
+    <p class="price-product">S/ {{ producto.precio | number:'1.2-2' }}</p>
+  </div>
+
+  <div class="btn-container-order">
+    <button class="btn-order" (click)="cartPay()">Pedir</button>
+  </div>
+</section>
+
+<app-navbar></app-navbar>

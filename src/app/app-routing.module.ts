@@ -37,6 +37,18 @@ const routes: Routes = [
     loadComponent: () =>
       import('./pages/profile/profile.page').then((m) => m.ProfilePage),
   },
+  {
+    path: 'product-view/:id',
+    loadComponent: () =>
+      import('./pages/product-view/product-view.page').then(
+        (m) => m.ProductViewPage
+      ),
+  },
+  {
+    path: 'cart-pay',
+    loadComponent: () =>
+      import('./pages/cart-pay/cart-pay.page').then((m) => m.CartPayPage),
+  },
 ];
 
 @NgModule({
