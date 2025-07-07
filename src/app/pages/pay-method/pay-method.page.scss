@@ -92,86 +92,85 @@ button:hover {
   box-shadow: none;
 }
 
-.main-container-cart {
+.user-address {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  gap: 3px;
+  max-height: 120px;
+  min-height: 80px;
+  display: flex;
+  font-family: $font-family;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+  border: 3px solid #151515;
+  color: #8d2516;
+  background-color: #fab222;
+
+  h1 {
+    font-weight: 700;
+    font-size: 1em;
+  }
+  p {
+    font-weight: 900;
+    font-size: 25px;
+    justify-content: center;
+  }
+}
+
+.main-container-pay {
   padding: 1em 2em;
   height: 100%;
 
   .header-pay-section {
-    margin-top: 0.5em;
+    margin-top: 1.5em;
     margin-bottom: 1.5em;
     display: flex;
-    gap: 2em;
+    gap: 1em;
     justify-content: space-between;
     align-items: center;
-    flex-direction: row;
+    flex-direction: column-reverse;
+
+    .pay-title {
+      text-align: left;
+      font-size: 2.2em;
+      font-weight: 900;
+      font-family: $font-family;
+      color: $text-dark;
+      margin: 0;
+    }
 
     img {
-      width: 7em;
+      width: 6em;
       height: auto;
       object-fit: contain;
     }
   }
 
-  .cart-title {
-    text-align: left;
-    font-size: 2.2em;
-    font-weight: 900;
-    font-family: $font-family;
-    color: $text-dark;
-    margin-bottom: 10px;
-  }
-
-  .header-cart-order {
+  .header-subtitle-section {
     display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
     justify-content: space-between;
-    height: 3em;
-    align-items: center;
-    margin-bottom: 2em;
-  }
 
-  .empty-cart-btn {
-    width: 3em;
-    border-radius: 10px;
-    padding: 2px;
-    height: auto;
-    font-size: 25px;
-    font-family: $font-family;
-    font-weight: 700;
-    background-color: $hover-yellow;
-    color: $primary-red;
-  }
+    h1 {
+      margin: 0;
+      font-family: $font-family;
+      font-size: 1em;
+      font-weight: 700;
+    }
 
-  .empty-cart {
-    text-align: center;
-    color: #999;
-    font-style: italic;
-    margin-top: 2em;
-  }
-
-  .cart-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5em;
-  }
-
-  .cart-item {
-    display: flex;
-    align-items: center;
-    background: $white;
-    border-radius: 10px;
-  }
-
-  .thumbnail {
-    display: flex;
-    width: 60px;
-    height: 60px;
-    flex-shrink: 0;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 5px;
+    button.add-card-btn {
+      background-color: $primary-red;
+      color: $white;
+      border-radius: 10px;
+      width: 3em;
+      height: 2em;
+      padding: 0;
     }
   }
 
@@ -193,35 +192,17 @@ button:hover {
       color: $light-gray;
     }
   }
-
-  .quantity-controls {
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
-
-    button {
-      background-color: $primary-red;
-      color: $white;
-      border: 2px solid $color-dark;
-      padding: 0.3em 0.5em;
-      border-radius: 8px;
-    }
-
-    span {
-      min-width: 2em;
-      text-align: center;
-    }
-  }
 }
 
-.cart-summary {
+.pay-summary {
   width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 2em 0 4em 0;
+  gap: 1em;
+  padding: 1em 0 5em 0;
   border-radius: 10px;
   background: transparent;
+  flex-direction: column;
+  flex-wrap: nowrap;
 
   .summary-left {
     display: flex;
@@ -235,7 +216,7 @@ button:hover {
     }
 
     .summary-amount {
-      font-size: 1.8em;
+      font-size: 2.2em;
       font-family: $font-family;
       font-weight: 900;
       color: $primary-red;
@@ -249,9 +230,11 @@ button:hover {
       padding: 0.7em 1em;
       border-radius: 5px;
       width: 100%;
-      font-weight: bold;
+      font-family: $font-family;
+      font-weight: 900;
+      font-size: 1.2em;
       background-color: $primary-red;
-      color: $white;
+      color: $primary-yellow;
     }
   }
 }
@@ -272,15 +255,23 @@ button:hover {
 .modal-content {
   background: white;
   border-radius: 12px;
-  padding: 20px;
+  padding: 30px;
   width: 90%;
   max-width: 400px;
   text-align: center;
+
+  h2 {
+    margin: 0;
+    margin-bottom: 15px;
+    font-family: $font-family;
+    font-weight: 900;
+  }
 }
 
 .modal-content img {
-  width: 80px;
-  margin-bottom: 10px;
+  max-width: 17em;
+  margin-top: 20px;
+  margin-bottom: 15px;
 }
 
 .stripe-element {
@@ -290,7 +281,11 @@ button:hover {
 }
 
 .modal-actions button {
-  margin: 5px;
+  margin: 0;
+  margin-bottom: 10px;
+  gap: 10px;
+  border-radius: 10px;
+  width: 100%;
 }
 
 .saved-card {
@@ -298,4 +293,13 @@ button:hover {
   padding: 5px 10px;
   border-radius: 6px;
   margin: 4px 0;
+}
+
+.form-field {
+  margin-bottom: 20px;
+}
+
+button.save-btn-target {
+  background-color: $primary-red;
+  color: $primary-yellow;
 }

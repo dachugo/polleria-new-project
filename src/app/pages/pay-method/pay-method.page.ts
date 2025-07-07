@@ -22,6 +22,7 @@ import { IonicModule } from '@ionic/angular';
 })
 export class PayMethodPage implements OnInit {
   total: number = 0;
+  usuario: any = null;
   cartItems: any[] = [];
   tarjetas: any[] = [];
   pagoEfectivo: boolean = false;
@@ -31,6 +32,7 @@ export class PayMethodPage implements OnInit {
   cardNumberElement: StripeCardNumberElement | null = null;
   cardExpiryElement: StripeCardExpiryElement | null = null;
   cardCvcElement: StripeCardCvcElement | null = null;
+
   constructor(
     private authService: AuthService,
     private stripeService: StripeService,
@@ -50,6 +52,7 @@ export class PayMethodPage implements OnInit {
     }
 
     await this.cargarTarjetas();
+    await this.loadUsuarios();
     this.stripe = await this.stripeService.getStripe();
   }
 
@@ -74,6 +77,15 @@ export class PayMethodPage implements OnInit {
 
   goBack() {
     this.location.back();
+  }
+
+  async loadUsuarios() {
+    const profile = await this.authService.getUserProfile();
+    if (!profile) {
+      console.warn('Error al recuperar el usuario');
+      return;
+    }
+    this.usuario = profile;
   }
 
   abrirModalAgregarTarjeta() {

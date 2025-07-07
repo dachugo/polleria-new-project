@@ -1,19 +1,29 @@
 <div class="background-image"></div>
 
 <ion-content fullscreen>
-  <section class="main-container-cart">
+  <section class="main-container-pay">
     <button class="btn-back" (click)="goBack()">
       <ion-icon name="arrow-back-outline"></ion-icon>
       <p>Regresar</p>
     </button>
 
+    <section class="user-address">
+      <h1>Dirección de Entrega:</h1>
+      <p *ngIf="usuario">{{usuario.direccion}}</p>
+    </section>
+
     <section class="header-pay-section">
-      <h1 class="cart-title">MÉTODO DE PAGO</h1>
+      <h1 class="pay-title">MÉTODO DE PAGO</h1>
       <img src="/assets/img/money-cash-chicken.svg" alt="Money Chicken" />
     </section>
 
+
+    <section class="header-subtitle-section">
+      <h1>Agregar Tarjeta:</h1>
+      <button class="add-card-btn" (click)="abrirModalAgregarTarjeta()">+</button>
+    </section>
+
     <section class="payment-options">
-      <h2>Selecciona tu método</h2>
 
       <div class="payment-method">
         <input type="checkbox" [(ngModel)]="pagoEfectivo" id="efectivo" />
@@ -26,22 +36,20 @@
       </div>
 
       <div class="payment-method">
-        <h3>Tarjetas guardadas</h3>
         <div *ngIf="tarjetas.length === 0">No tienes tarjetas guardadas.</div>
         <div *ngFor="let t of tarjetas" class="saved-card">
           <p>{{ t.numero_mascara }} - {{ t.nombre_propietario }}</p>
         </div>
-        <button class="add-card-btn" (click)="abrirModalAgregarTarjeta()">+ Agregar Tarjeta</button>
       </div>
     </section>
 
-    <section class="cart-summary">
+    <section class="pay-summary">
       <div class="summary-left">
         <span class="summary-title">Total a pagar:</span>
         <span class="summary-amount">S/ {{ total | number:'1.2-2' }}</span>
       </div>
       <div class="summary-right">
-        <button class="checkout-btn">Ir a Pagar</button>
+        <button class="checkout-btn">Realizar Pedido</button>
       </div>
     </section>
   </section>
@@ -49,8 +57,8 @@
   <!-- MODAL -->
   <div class="modal-overlay" *ngIf="showModal">
     <div class="modal-content">
-      <img src="/assets/img/card-chicken.svg" alt="Agregar tarjeta" class="modal-image" />
-      <h2>Agrega tu tarjeta</h2>
+      <img src="/assets/img/card-chicken.png" alt="Agregar tarjeta" class="modal-image" />
+      <h2>AGREGA TU TARJETA</h2>
 
       <section class="form-field">
         <label>Número de tarjeta</label>
@@ -69,8 +77,8 @@
       </section>
 
       <div class="modal-actions">
+        <button class="save-btn-target" (click)="guardarTarjeta()">Guardar</button>
         <button (click)="cancelarAgregarTarjeta()">Cancelar</button>
-        <button (click)="guardarTarjeta()">Guardar</button>
       </div>
     </div>
   </div>
