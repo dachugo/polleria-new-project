@@ -1,6 +1,6 @@
 <div class="modal-container" [class.open]="isOpen">
   <div class="modal-card">
-    <img src="/assets/img/historial-pedidos.png" alt="Historial de pedidos" class="modal-image" />
+    <img src="/assets/img/chill-chicken.svg" alt="Historial de pedidos" class="modal-image" />
     <h2 class="modal-title">Historial de pedidos</h2>
 
     <div class="modal-content" *ngIf="pedidos.length > 0; else sinPedidos">
@@ -17,6 +17,6 @@
       <p class="sin-pedido">No tienes pedidos recientes.</p>
     </ng-template>
 
-    <button class="cerrar-btn" (click)="cerrar()">Cerrar modal</button>
+    <button class="cerrar-btn" (click)="cerrar()">Cerrar Modal</button>
   </div>
 </div>

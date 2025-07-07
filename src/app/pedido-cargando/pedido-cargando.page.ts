@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AlertController, IonicModule } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { PedidoEstadoService } from '../services/pedidos-estados.service';
 
 @Component({
   selector: 'app-pedido-cargando',
@@ -17,7 +18,8 @@ export class PedidoCargandoPage implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private pedidoEstadoService: PedidoEstadoService
   ) {}
   total: number = 0;
   cartItems: any[] = [];
@@ -57,8 +59,6 @@ export class PedidoCargandoPage implements OnInit {
       return;
     }
 
-    // Insertar detalle
-    // Insertar detalle
     for (const item of this.cartItems) {
       const detalle = {
         pedido_id: pedido.id,
@@ -66,26 +66,6 @@ export class PedidoCargandoPage implements OnInit {
         cantidad: item.cantidad,
         precio_unit: item.producto.precio,
       };
-
-      if (!item.producto || !item.producto.id || !item.producto.precio) {
-        await this.mostrarAlertaDebug(
-          `Detalle inválido:
-    producto_id: ${item.producto?.id}
-    cantidad: ${item.cantidad}
-    precio_unit: ${item.producto?.precio}`
-        );
-        continue;
-      }
-
-      if (!detalle.producto_id || !detalle.cantidad || !detalle.precio_unit) {
-        await this.mostrarAlertaDebug(
-          `Detalle inválido:
-producto_id: ${detalle.producto_id}
-cantidad: ${detalle.cantidad}
-precio_unit: ${detalle.precio_unit}`
-        );
-        continue;
-      }
 
       const { error: detalleError } = await this.authService.supabaseClient
         .from('detalle_pedidos')
@@ -107,7 +87,8 @@ precio_unit: ${detalle.precio_unit}`
     this.total = 0;
 
     localStorage.setItem('pedidoActualId', pedido.id);
-    this.simularEstados(pedido.id);
+
+    this.pedidoEstadoService.iniciarSimulacion(pedido.id);
 
     setTimeout(() => {
       this.router.navigate(['/pedido-estado']);

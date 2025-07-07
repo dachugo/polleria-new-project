@@ -6,16 +6,26 @@
 
 <ion-content [fullscreen]="true" class="estado-content">
   <section class="estado-container">
+    <!-- Added image at the top -->
+    <div class="header-image">
+      <img src="/assets/img/delivery-chicken.svg" alt="Estado del pedido">
+    </div>
+
     <div class="estado" *ngIf="pedido">
       <div *ngFor="let est of estados; let i = index" [ngClass]="{
           'activo': pedido.estado === est,
           'completado': estados.indexOf(pedido.estado) > i
         }">
+        <!-- Added icons for each status -->
+        <ion-icon [name]="getStatusIcon(est)"></ion-icon>
         {{ est }}
       </div>
     </div>
+
     <section class="boton-container">
-      <button ion-button expand="block" (click)="regresarHome()">Regresar al inicio</button>
+      <ion-button expand="block" (click)="regresarHome()" class="back-button">
+        Regresar al inicio
+      </ion-button>
     </section>
   </section>
 </ion-content>

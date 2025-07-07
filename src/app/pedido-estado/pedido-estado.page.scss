@@ -1,31 +1,94 @@
+$primary-yellow: #fab222;
+$primary-green: #417533;
+$secondary-green: #3b6630;
+$primary-red: #8d2516;
+$hover-yellow: #e4a21d;
+$color-dark: #120000;
+$white: #ffffff;
+$light-gray: #737373;
+$text-dark: #151515;
+$font-family: "Inter", sans-serif;
+
 .estado-content {
-  --background: #ecfccb; // verde muy suave
-  padding: 1rem;
+  --background: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .estado-container {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  width: 90%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.header-image {
+  margin-bottom: 2rem;
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
 }
 
 .estado div {
   padding: 0.75rem;
   border-radius: 8px;
-  background-color: #d1d5db; // gris por defecto
-  color: #374151; // gris oscuro
+  background-color: #d1d5db;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  margin-bottom: 0.5rem;
+
+  ion-icon {
+    font-size: 1.5rem;
+    min-width: 24px;
+  }
 }
 
 .estado div.activo {
-  background-color: #facc15; // amarillo
-  color: #78350f; // marrón
+  background-color: $primary-yellow;
+  border: 2px solid $color-dark;
+  font-family: $font-family;
+  border-radius: 10px;
+  color: $primary-red;
+  font-weight: bold;
+
+  ion-icon {
+    color: $primary-red;
+  }
 }
 
 .estado div.completado {
-  background-color: #4ade80; // verde
-  color: white;
+  border-radius: 10px;
+  border: 2px solid $color-dark;
+  background-color: $primary-red;
+  color: $white;
+  font-family: $font-family;
+
+  ion-icon {
+    color: $white;
+  }
 }
 
 .boton-container {
   margin-top: 2rem;
+
+  .back-button {
+    --background: $primary-red;
+    --border-color: $color-dark;
+    --border-width: 2px;
+    --border-style: solid;
+    --color: $white;
+    --background-hover: #{darken($primary-red, 10%)};
+    --color-hover: $white;
+    font-weight: bold;
+  }
 }

@@ -28,6 +28,7 @@ export class CartPage implements OnInit {
   usuario: any;
   productos: any[] = [];
 
+  //Constantes Estáticas
   readonly MENU_ID = '9c094064-ee42-489f-b90b-7c422358dabe';
   readonly BEBIDAS_ID = '2cff7f95-ca3c-44a7-918e-31972aa08d6e';
 

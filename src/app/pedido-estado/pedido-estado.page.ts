@@ -13,6 +13,8 @@ import { AuthService } from '../services/auth.service';
 })
 export class PedidoEstadoPage implements OnInit {
   pedido: any = null;
+  intervalId: any = null;
+
   estados = [
     'Pendiente',
     'Confirmado',
@@ -34,9 +36,27 @@ export class PedidoEstadoPage implements OnInit {
 
     this.cargarPedido(pedidoId);
 
-    setInterval(() => {
+    this.intervalId = setInterval(() => {
       this.cargarPedido(pedidoId);
     }, 5000);
+  }
+
+  ngOnDestroy() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  }
+
+  getStatusIcon(status: string): string {
+    const icons: { [key: string]: string } = {
+      Pendiente: 'hand-right-outline',
+      Confirmado: 'thumbs-up-outline',
+      'En preparación': 'bonfire-outline',
+      'Listo para enviar': 'golf-outline',
+      'En camino': 'walk-outline',
+      'Espera de entregar': 'stopwatch-outline',
+    };
+    return icons[status] || 'help-outline';
   }
 
   async cargarPedido(pedidoId: string) {
