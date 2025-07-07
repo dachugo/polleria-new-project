@@ -1,0 +1,22 @@
+<div class="modal-container" [class.open]="isOpen">
+  <div class="modal-card">
+    <img src="/assets/img/historial-pedidos.png" alt="Historial de pedidos" class="modal-image" />
+    <h2 class="modal-title">Historial de pedidos</h2>
+
+    <div class="modal-content" *ngIf="pedidos.length > 0; else sinPedidos">
+      <div *ngFor="let pedido of pedidos" class="pedido-card">
+        <p><strong>#{{ pedido.id }}</strong> | S/ {{ pedido.total | number:'1.2-2' }}</p>
+        <p>Estado: <span class="estado">{{ pedido.estado }}</span></p>
+        <button *ngIf="pedido.estado === 'Espera de entregar'" (click)="marcarEntregado(pedido.id)">
+          Recogido
+        </button>
+      </div>
+    </div>
+
+    <ng-template #sinPedidos>
+      <p class="sin-pedido">No tienes pedidos recientes.</p>
+    </ng-template>
+
+    <button class="cerrar-btn" (click)="cerrar()">Cerrar modal</button>
+  </div>
+</div>

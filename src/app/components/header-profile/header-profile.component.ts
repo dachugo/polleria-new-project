@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Output, OnInit, Input } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, AlertController, ModalController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { AuthService } from 'src/app/services/auth.service';
+import { SidebarPedidoComponent } from '../sidebar-pedido/sidebar-pedido.component';
 
 @Component({
   selector: 'app-header-profile',
@@ -13,21 +14,15 @@ import { AuthService } from 'src/app/services/auth.service';
 export class HeaderProfileComponent implements OnInit {
   username: string = '';
   @Input() introText: string = '¿Qué es lo que pediremos hoy?';
-
   selectedAvatar: string = '/assets/img/df_chicken.svg';
-  avatarUrls: string[] = [
-    'https://ruriirwkpcwkdqoxclbx.supabase.co/storage/v1/object/public/avatars//bad_chicken.svg',
-    'https://ruriirwkpcwkdqoxclbx.supabase.co/storage/v1/object/public/avatars//biirthday_chicken.svg',
-    'https://ruriirwkpcwkdqoxclbx.supabase.co/storage/v1/object/public/avatars//fresh_chicken.svg',
-    'https://ruriirwkpcwkdqoxclbx.supabase.co/storage/v1/object/public/avatars//girl_chicken.svg',
-    'https://ruriirwkpcwkdqoxclbx.supabase.co/storage/v1/object/public/avatars//photo_chicken.svg',
-    'https://ruriirwkpcwkdqoxclbx.supabase.co/storage/v1/object/public/avatars//default_chicken.svg',
-    'https://ruriirwkpcwkdqoxclbx.supabase.co/storage/v1/object/public/avatars//chef_chicken.svg',
-  ];
 
   @Output() notifyClick = new EventEmitter<void>();
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private alertController: AlertController,
+    private modalController: ModalController
+  ) {}
 
   async ngOnInit() {
     const cached = this.authService.getCachedProfile();
@@ -40,18 +35,12 @@ export class HeaderProfileComponent implements OnInit {
 
     const { data, error } =
       await this.authService.supabaseClient.auth.getUser();
-    if (error || !data.user) {
-      console.error('No se pudo obtener el usuario:', error);
-      return;
-    }
+    if (error || !data.user) return;
 
-    // Busca el perfil en la tabla usuarios
     const perfil = await this.authService.getUserProfile();
     if (perfil) {
       this.username = perfil.nombre || data.user.email || 'Usuario';
-      if (perfil.avatar) {
-        this.selectedAvatar = perfil.avatar;
-      }
+      if (perfil.avatar) this.selectedAvatar = perfil.avatar;
     }
 
     this.authService.setCachedProfile({
@@ -62,7 +51,58 @@ export class HeaderProfileComponent implements OnInit {
 
   onNotifyClick() {
     this.notifyClick.emit();
+    this.abrirSidebarEstadoPedido();
   }
 
-  abrirNotificaciones() {}
+  async abrirSidebarEstadoPedido() {
+    const pedidoId = localStorage.getItem('pedidoActualId');
+
+    if (!pedidoId) {
+      await this.mostrarSidebar();
+      return;
+    }
+
+    const { data: pedido, error } = await this.authService.supabaseClient
+      .from('pedidos')
+      .select('*')
+      .eq('id', pedidoId)
+      .single();
+
+    if (error || !pedido) {
+      await this.mostrarSidebar();
+      return;
+    }
+
+    if (pedido.estado === 'En camino') {
+      const perfil = await this.authService.getUserProfile();
+      const direccion = perfil?.direccion || 'Dirección no disponible';
+      const alert = await this.alertController.create({
+        header: 'Tu pedido está en camino',
+        message: `Yendo a: ${direccion}`,
+        buttons: ['OK'],
+      });
+      await alert.present();
+    }
+
+    await this.mostrarSidebar();
+  }
+
+  async mostrarSidebar() {
+    const modal = await this.modalController.create({
+      component: SidebarPedidoComponent,
+      cssClass: 'sidebar-pedido-modal',
+      backdropDismiss: true,
+      showBackdrop: false,
+    });
+
+    await modal.present();
+
+    // ESPERA a que el modal se cierre antes de poder abrir otro
+    await modal.onDidDismiss();
+  }
+
+  reproducirSonido() {
+    const audio = new Audio('/assets/sounds/soundEffect-chicken.mp3');
+    audio.play();
+  }
 }

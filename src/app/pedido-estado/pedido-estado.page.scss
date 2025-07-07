@@ -1,0 +1,31 @@
+.estado-content {
+  --background: #ecfccb; // verde muy suave
+  padding: 1rem;
+}
+
+.estado-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.estado div {
+  padding: 0.75rem;
+  border-radius: 8px;
+  background-color: #d1d5db; // gris por defecto
+  color: #374151; // gris oscuro
+}
+
+.estado div.activo {
+  background-color: #facc15; // amarillo
+  color: #78350f; // marrón
+}
+
+.estado div.completado {
+  background-color: #4ade80; // verde
+  color: white;
+}
+
+.boton-container {
+  margin-top: 2rem;
+}

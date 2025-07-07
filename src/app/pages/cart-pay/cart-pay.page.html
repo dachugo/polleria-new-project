@@ -27,11 +27,14 @@
     <section *ngIf="cartItems.length > 0" class="cart-list">
       <div *ngFor="let item of cartItems" class="cart-item">
         <div class="thumbnail">
-          <img [src]="item.producto.imagen_url" />
+          <img *ngIf="item.producto" [src]="item.producto.imagen_url || 'assets/img/placeholder.png'"
+            alt="Imagen producto" />
+          <div *ngIf="!item.producto">Sin imagen</div>
         </div>
         <div class="item-label">
-          <h2>{{ item.producto.nombre }}</h2>
-          <p>S/ {{ (item.producto.precio * item.cantidad) | number:'1.2-2' }}</p>
+          <h2 *ngIf="item.producto">{{ item.producto.nombre }}</h2>
+          <p *ngIf="item.producto">S/ {{ (item.producto.precio * item.cantidad) | number:'1.2-2' }}</p>
+          <p *ngIf="!item.producto">Producto no disponible</p>
         </div>
         <div class="quantity-controls">
           <button (click)="cambiarCantidad(item, -1)">-</button>
@@ -39,6 +42,7 @@
           <button (click)="cambiarCantidad(item, 1)" [disabled]="item.cantidad >= 10">+</button>
         </div>
       </div>
+
     </section>
 
 

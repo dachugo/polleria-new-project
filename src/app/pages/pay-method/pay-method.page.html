@@ -7,41 +7,56 @@
       <p>Regresar</p>
     </button>
 
+
+    <section class="header-pay-section">
+      <img src="/assets/img/money-cash-chicken.svg" alt="Money Chicken" />
+    </section>
+
     <section class="user-address">
       <h1>Dirección de Entrega:</h1>
       <p *ngIf="usuario">{{usuario.direccion}}</p>
     </section>
 
-    <section class="header-pay-section">
-      <h1 class="pay-title">MÉTODO DE PAGO</h1>
-      <img src="/assets/img/money-cash-chicken.svg" alt="Money Chicken" />
-    </section>
-
-
     <section class="header-subtitle-section">
       <h1>Agregar Tarjeta:</h1>
-      <button class="add-card-btn" (click)="abrirModalAgregarTarjeta()">+</button>
+      <button class="add-card-btn" (click)="abrirModalAgregarTarjeta()">
+        <ion-icon name="add-outline"></ion-icon>
+      </button>
     </section>
+
 
     <section class="payment-options">
 
-      <div class="payment-method">
-        <input type="checkbox" [(ngModel)]="pagoEfectivo" id="efectivo" />
-        <label for="efectivo">Efectivo</label>
+      <div class="payment-method" (click)="metodoSeleccionado = 'efectivo'">
+        <img src="/assets/img/cash-image.svg" alt="Efectivo" class="method-icon" />
+        <span class="method-label">Efectivo</span>
+        <input type="radio" name="metodoPago" [(ngModel)]="metodoSeleccionado" value="efectivo" hidden />
+        <span class="custom-radio" [class.selected]="metodoSeleccionado === 'efectivo'"></span>
       </div>
 
-      <div class="payment-method">
-        <input type="checkbox" [(ngModel)]="pagoYape" id="yape" />
-        <label for="yape">Yape</label>
+      <div class="payment-method" (click)="metodoSeleccionado = 'yape'">
+        <img src="/assets/img/yape-image.svg" alt="Yape" class="method-icon" />
+        <span class="method-label">Yape</span>
+        <input type="radio" name="metodoPago" [(ngModel)]="metodoSeleccionado" value="yape" hidden />
+        <span class="custom-radio" [class.selected]="metodoSeleccionado === 'yape'"></span>
       </div>
 
-      <div class="payment-method">
-        <div *ngIf="tarjetas.length === 0">No tienes tarjetas guardadas.</div>
-        <div *ngFor="let t of tarjetas" class="saved-card">
-          <p>{{ t.numero_mascara }} - {{ t.nombre_propietario }}</p>
-        </div>
+      <div *ngFor="let t of tarjetas" class="payment-method" (click)="metodoSeleccionado = t.id">
+        <img src="/assets/img/visa-card-image.svg" alt="Tarjeta" class="method-icon" />
+        <span class="method-label">TARJETA - {{ t.numero_mascara.slice(-4) }}</span>
+
+        <button class="delete-btn" (click)="confirmarEliminarTarjeta(t.id); $event.stopPropagation()">
+          <ion-icon name="trash-outline"></ion-icon>
+        </button>
+
+        <input type="radio" name="metodoPago" [(ngModel)]="metodoSeleccionado" [value]="t.id" hidden />
+        <span class="custom-radio" [class.selected]="metodoSeleccionado === t.id"></span>
       </div>
+
+
+
     </section>
+
 
     <section class="pay-summary">
       <div class="summary-left">
@@ -49,7 +64,7 @@
         <span class="summary-amount">S/ {{ total | number:'1.2-2' }}</span>
       </div>
       <div class="summary-right">
-        <button class="checkout-btn">Realizar Pedido</button>
+        <button class="checkout-btn" (click)="realizarPedido()">Realizar Pedido</button>
       </div>
     </section>
   </section>

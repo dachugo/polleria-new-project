@@ -1,0 +1,21 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Estado del Pedido</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="estado-content">
+  <section class="estado-container">
+    <div class="estado" *ngIf="pedido">
+      <div *ngFor="let est of estados; let i = index" [ngClass]="{
+          'activo': pedido.estado === est,
+          'completado': estados.indexOf(pedido.estado) > i
+        }">
+        {{ est }}
+      </div>
+    </div>
+    <section class="boton-container">
+      <button ion-button expand="block" (click)="regresarHome()">Regresar al inicio</button>
+    </section>
+  </section>
+</ion-content>

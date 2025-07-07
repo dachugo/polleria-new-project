@@ -1,0 +1,21 @@
+.cargando-content {
+  --background: #fef3c7; // un amarillo suave
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cargando-container {
+  text-align: center;
+}
+
+.gif-container img {
+  width: 150px;
+  height: 150px;
+}
+
+.text-container p {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #b45309; // naranja oscuro
+}

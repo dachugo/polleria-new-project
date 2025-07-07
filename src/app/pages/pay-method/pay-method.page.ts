@@ -3,6 +3,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { StripeService } from 'src/app/services/stripe.service';
 import { Router } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
+import { AlertController } from '@ionic/angular';
+
 import {
   Stripe,
   StripeCardCvcElement,
@@ -21,6 +23,7 @@ import { IonicModule } from '@ionic/angular';
   imports: [CommonModule, FormsModule, IonicModule],
 })
 export class PayMethodPage implements OnInit {
+  metodoSeleccionado: string | null = null;
   total: number = 0;
   usuario: any = null;
   cartItems: any[] = [];
@@ -37,7 +40,8 @@ export class PayMethodPage implements OnInit {
     private authService: AuthService,
     private stripeService: StripeService,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private alertController: AlertController
   ) {}
 
   async ngOnInit() {
@@ -72,6 +76,41 @@ export class PayMethodPage implements OnInit {
       this.tarjetas = data;
     } else if (error) {
       console.error('Error al cargar tarjetas:', error);
+    }
+  }
+
+  async confirmarEliminarTarjeta(id: string) {
+    const alert = await this.alertController.create({
+      header: 'Eliminar método de pago',
+      message: '¿Quieres eliminar este método de pago?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+        },
+        {
+          text: 'Sí',
+          handler: async () => {
+            await this.eliminarTarjeta(id);
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  async eliminarTarjeta(id: string) {
+    const { error } = await this.authService.supabaseClient
+      .from('tarjetas')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error al eliminar la tarjeta:', error);
+    } else {
+      console.log('Tarjeta eliminada');
+      await this.cargarTarjetas();
     }
   }
 
@@ -150,5 +189,22 @@ export class PayMethodPage implements OnInit {
       this.cancelarAgregarTarjeta();
       await this.cargarTarjetas();
     }
+  }
+
+  async realizarPedido() {
+    if (!this.metodoSeleccionado) {
+      const alert = await this.alertController.create({
+        header: 'Método de Pago',
+        message: 'Por favor, selecciona un método de pago.',
+        buttons: ['OK'],
+      });
+
+      await alert.present();
+      return;
+    }
+
+    this.router.navigate(['/pedido-cargando'], {
+      state: { total: this.total, cartItems: this.cartItems },
+    });
   }
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { PedidoService } from './services/pedido.service';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class AppComponent {
-  constructor() {}
+  constructor(private pedidoService: PedidoService) {}
 }

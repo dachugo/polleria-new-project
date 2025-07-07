@@ -1,0 +1,115 @@
+$primary-yellow: #fab222;
+$primary-green: #417533;
+$secondary-green: #3b6630;
+$primary-red: #8d2516;
+$hover-yellow: #e4a21d;
+$color-dark: #120000;
+$white: #ffffff;
+$light-gray: #737373;
+$text-dark: #151515;
+$font-family: "Inter", sans-serif;
+
+::ng-deep .sidebar-pedido-modal {
+  --background: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .modal-wrapper {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.modal-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  background: transparent;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.modal-container.open {
+  pointer-events: all;
+}
+
+.modal-card {
+  background: #fff;
+  width: 95%;
+  max-width: 400px;
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  padding: 1rem;
+}
+
+.modal-container.open .modal-card {
+  transform: translateY(0);
+}
+
+.modal-image {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 0.5rem;
+}
+
+.modal-title {
+  text-align: center;
+  font-family: $font-family;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.modal-content {
+  overflow-y: auto;
+  max-height: 300px;
+}
+
+.pedido-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.pedido-card p {
+  margin: 0.25rem 0;
+}
+
+.estado {
+  font-weight: bold;
+  color: #2196f3;
+}
+
+button {
+  width: 100%;
+  background: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.cerrar-btn {
+  background: $primary-red;
+  color: $primary-yellow;
+  border: 4px solid $color-dark;
+  margin-top: 1rem;
+  padding: 10px;
+  font-size: 1.3em;
+  margin-bottom: 5rem;
+}
+
+.sin-pedido {
+  text-align: center;
+  color: #777;
+}

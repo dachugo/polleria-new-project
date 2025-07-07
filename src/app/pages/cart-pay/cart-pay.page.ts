@@ -47,18 +47,18 @@ export class CartPayPage implements OnInit {
 
     this.cartItems = data.map((item) => ({
       id: item.id,
-      producto: item.producto,
       cantidad: item.cantidad,
+      producto: item.producto, // conserva el objeto producto
     }));
 
     this.calcularTotalCart();
   }
 
   calcularTotalCart() {
-    this.total = this.cartItems.reduce(
-      (acc, item) => acc + item.producto.precio * item.cantidad,
-      0
-    );
+    this.total = this.cartItems.reduce((acc, item) => {
+      if (!item.producto) return acc;
+      return acc + item.producto.precio * item.cantidad;
+    }, 0);
   }
 
   async cambiarCantidad(item: any, cambio: number) {

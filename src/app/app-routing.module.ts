@@ -54,6 +54,20 @@ const routes: Routes = [
     loadComponent: () =>
       import('./pages/pay-method/pay-method.page').then((m) => m.PayMethodPage),
   },
+  {
+    path: 'pedido-estado',
+    loadComponent: () =>
+      import('./pedido-estado/pedido-estado.page').then(
+        (m) => m.PedidoEstadoPage
+      ),
+  },
+  {
+    path: 'pedido-cargando',
+    loadComponent: () =>
+      import('./pedido-cargando/pedido-cargando.page').then(
+        (m) => m.PedidoCargandoPage
+      ),
+  },
 ];
 
 @NgModule({
