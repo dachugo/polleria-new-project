@@ -96,23 +96,25 @@ button:hover {
   padding: 1em 2em;
   height: 100%;
 
-  .logo-container {
-    margin-top: 1em;
+  .header-pay-section {
+    margin-top: 0.5em;
     margin-bottom: 1.5em;
     display: flex;
-    justify-content: center;
+    gap: 2em;
+    justify-content: space-between;
     align-items: center;
+    flex-direction: row;
 
     img {
-      width: 11em;
+      width: 7em;
       height: auto;
       object-fit: contain;
     }
   }
 
   .cart-title {
-    text-align: center;
-    font-size: 1.8em;
+    text-align: left;
+    font-size: 2.2em;
     font-weight: 900;
     font-family: $font-family;
     color: $text-dark;
@@ -128,13 +130,15 @@ button:hover {
   }
 
   .empty-cart-btn {
-    width: 10em;
+    width: 3em;
     border-radius: 10px;
-    padding: 10px;
+    padding: 2px;
     height: auto;
-    font-size: 15px;
+    font-size: 25px;
     font-family: $font-family;
     font-weight: 700;
+    background-color: $hover-yellow;
+    color: $primary-red;
   }
 
   .empty-cart {
@@ -250,4 +254,48 @@ button:hover {
       color: $white;
     }
   }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.modal-content img {
+  width: 80px;
+  margin-bottom: 10px;
+}
+
+.stripe-element {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.modal-actions button {
+  margin: 5px;
+}
+
+.saved-card {
+  background: #f1f1f1;
+  padding: 5px 10px;
+  border-radius: 6px;
+  margin: 4px 0;
 }

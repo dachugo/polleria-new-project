@@ -68,6 +68,9 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   async login() {
+    this.authService.clearCachedProfile();
+    localStorage.removeItem('perfil');
+
     const loading = await this.loadingController.create();
     await loading.present();
 
@@ -88,6 +91,8 @@ export class LoginPage implements OnInit, OnDestroy {
       return;
     }
 
+    await this.authService.refreshCurrentUser();
+
     const userId = data.user.id;
 
     await this.insertPerfilSiNoExiste(userId, {
@@ -101,7 +106,7 @@ export class LoginPage implements OnInit, OnDestroy {
     const perfil = await this.authService.getUserProfile();
     console.log('Perfil del usuario:', perfil);
 
-    localStorage.setItem('perfil', JSON.stringify(perfil));
+    this.authService.setCachedProfile(perfil);
 
     await loading.dismiss();
     this.navCtrl.navigateRoot('/home');

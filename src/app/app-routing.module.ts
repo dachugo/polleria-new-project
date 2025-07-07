@@ -49,6 +49,11 @@ const routes: Routes = [
     loadComponent: () =>
       import('./pages/cart-pay/cart-pay.page').then((m) => m.CartPayPage),
   },
+  {
+    path: 'pay-method',
+    loadComponent: () =>
+      import('./pages/pay-method/pay-method.page').then((m) => m.PayMethodPage),
+  },
 ];
 
 @NgModule({

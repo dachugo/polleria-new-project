@@ -1,0 +1,142 @@
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
+import { StripeService } from 'src/app/services/stripe.service';
+import { Router } from '@angular/router';
+import { CommonModule, Location } from '@angular/common';
+import {
+  Stripe,
+  StripeCardCvcElement,
+  StripeCardElement,
+  StripeCardExpiryElement,
+  StripeCardNumberElement,
+} from '@stripe/stripe-js';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+
+@Component({
+  standalone: true,
+  selector: 'app-pay-method',
+  templateUrl: './pay-method.page.html',
+  styleUrls: ['./pay-method.page.scss'],
+  imports: [CommonModule, FormsModule, IonicModule],
+})
+export class PayMethodPage implements OnInit {
+  total: number = 0;
+  cartItems: any[] = [];
+  tarjetas: any[] = [];
+  pagoEfectivo: boolean = false;
+  pagoYape: boolean = false;
+  showModal: boolean = false;
+  stripe: Stripe | null = null;
+  cardNumberElement: StripeCardNumberElement | null = null;
+  cardExpiryElement: StripeCardExpiryElement | null = null;
+  cardCvcElement: StripeCardCvcElement | null = null;
+  constructor(
+    private authService: AuthService,
+    private stripeService: StripeService,
+    private router: Router,
+    private location: Location
+  ) {}
+
+  async ngOnInit() {
+    const nav = this.router.getCurrentNavigation();
+    const state = nav?.extras.state as { total: number; cartItems: any[] };
+
+    if (state) {
+      this.total = state.total;
+      this.cartItems = state.cartItems || [];
+    } else {
+      this.location.back();
+    }
+
+    await this.cargarTarjetas();
+    this.stripe = await this.stripeService.getStripe();
+  }
+
+  async cargarTarjetas() {
+    const userId = this.authService.getCurrentUserId();
+    if (!userId) {
+      console.warn('No hay usuario logueado');
+      return;
+    }
+
+    const { data, error } = await this.authService.supabaseClient
+      .from('tarjetas')
+      .select('*')
+      .eq('usuario_id', userId);
+
+    if (!error && data) {
+      this.tarjetas = data;
+    } else if (error) {
+      console.error('Error al cargar tarjetas:', error);
+    }
+  }
+
+  goBack() {
+    this.location.back();
+  }
+
+  abrirModalAgregarTarjeta() {
+    this.showModal = true; // Esto hace que aparezca el form en el HTML
+
+    // Espera a que Angular renderice
+    setTimeout(async () => {
+      const stripe = await this.stripeService.getStripe();
+      if (!stripe) {
+        console.error('Stripe no se inicializó');
+        return;
+      }
+
+      const elements = stripe.elements();
+      const cardNumber = elements.create('cardNumber');
+      const cardExpiry = elements.create('cardExpiry');
+      const cardCvc = elements.create('cardCvc');
+
+      cardNumber.mount('#card-number-element');
+      cardExpiry.mount('#card-expiry-element');
+      cardCvc.mount('#card-cvc-element');
+
+      this.cardNumberElement = cardNumber;
+      this.cardExpiryElement = cardExpiry;
+      this.cardCvcElement = cardCvc;
+    }, 0);
+  }
+
+  cancelarAgregarTarjeta() {
+    this.showModal = false;
+
+    if (this.cardNumberElement) {
+      this.cardNumberElement.unmount();
+      this.cardNumberElement = null;
+    }
+    if (this.cardExpiryElement) {
+      this.cardExpiryElement.unmount();
+      this.cardExpiryElement = null;
+    }
+    if (this.cardCvcElement) {
+      this.cardCvcElement.unmount();
+      this.cardCvcElement = null;
+    }
+  }
+
+  async guardarTarjeta() {
+    if (!this.stripe || !this.cardNumberElement) return;
+
+    const result = await this.stripe.createToken(this.cardNumberElement);
+    if (result.error) {
+      console.error(result.error.message);
+    } else if (result.token) {
+      await this.authService.supabaseClient.from('tarjetas').insert({
+        usuario_id: this.authService.getCurrentUserId(),
+        token_pago: result.token.id,
+        numero_mascara: `XXXX-XXXX-XXXX-${result.token.card?.last4}`,
+        nombre_propietario: result.token.card?.name || 'No informado',
+        proveedor: 'Stripe',
+      });
+
+      console.log('Tarjeta guardada');
+      this.cancelarAgregarTarjeta();
+      await this.cargarTarjetas();
+    }
+  }
+}

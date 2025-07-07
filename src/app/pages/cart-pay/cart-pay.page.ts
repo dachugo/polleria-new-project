@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   standalone: true,
@@ -17,12 +18,17 @@ export class CartPayPage implements OnInit {
   total: number = 0;
   constructor(
     private authService: AuthService,
-    private router: Router,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private location: Location,
+    private router: Router
   ) {}
 
   async ngOnInit() {
     await this.cargarCarrito();
+  }
+
+  async goBack() {
+    this.location.back();
   }
 
   async cargarCarrito() {
@@ -107,6 +113,11 @@ export class CartPayPage implements OnInit {
   }
 
   irAPagar() {
-    alert('SE VIENE 🤑');
+    this.router.navigate(['/pay-method'], {
+      state: {
+        total: this.total,
+        cartItems: this.cartItems,
+      },
+    });
   }
 }

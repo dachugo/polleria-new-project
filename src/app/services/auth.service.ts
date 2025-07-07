@@ -90,6 +90,8 @@ export class AuthService {
   async signOut() {
     await this.supabaseClient.auth.signOut();
     this.currentUser.next(null);
+    this.clearCachedProfile();
+    localStorage.removeItem('perfil');
     this.router.navigateByUrl('/', { replaceUrl: true });
   }
 
@@ -121,6 +123,16 @@ export class AuthService {
 
   signInWithEmail(correo: string) {
     return this.supabase.auth.signInWithOtp({ email: correo });
+  }
+
+  async refreshCurrentUser() {
+    const { data, error } = await this.supabase.auth.getUser();
+    if (error) {
+      console.error('Error al refrescar usuario:', error);
+      this.currentUser.next(null);
+    } else {
+      this.currentUser.next(data.user ?? null);
+    }
   }
 
   get supabaseClient(): SupabaseClient {

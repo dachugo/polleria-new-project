@@ -1,34 +1,56 @@
+<div class="background-image"></div>
+
 <ion-content fullscreen>
+
   <section class="main-container-cart">
-    <h1 class="cart-title">Tu Canasta</h1>
+    <button class="btn-back" (click)="goBack()">
+      <ion-icon name="arrow-back-outline">
+      </ion-icon>
+      <p>Regresar</p>
+    </button>
+
+    <div class="logo-container">
+      <img src="/assets/img/waiter-chicken.svg" alt="Waiter Chicken" />
+    </div>
+
+    <h1 class="cart-title">TOMANDO LA ORDEN</h1>
+
+    <section class="header-cart-order">
+      <p>Tu Orden:</p>
+      <button class="empty-cart-btn" (click)="clearCart()">Vaciar Canasta</button>
+    </section>
 
     <div *ngIf="cartItems.length === 0" class="empty-cart">
       <p>No hay productos en tu canasta.</p>
     </div>
 
-    <ion-list *ngIf="cartItems.length > 0">
-      <ion-item *ngFor="let item of cartItems">
-        <ion-thumbnail slot="start">
-          <img [src]="item.producto.imagen_url">
-        </ion-thumbnail>
-        <ion-label>
+    <section *ngIf="cartItems.length > 0" class="cart-list">
+      <div *ngFor="let item of cartItems" class="cart-item">
+        <div class="thumbnail">
+          <img [src]="item.producto.imagen_url" />
+        </div>
+        <div class="item-label">
           <h2>{{ item.producto.nombre }}</h2>
           <p>S/ {{ (item.producto.precio * item.cantidad) | number:'1.2-2' }}</p>
-        </ion-label>
+        </div>
         <div class="quantity-controls">
           <button (click)="cambiarCantidad(item, -1)">-</button>
           <span>{{ item.cantidad }}</span>
           <button (click)="cambiarCantidad(item, 1)" [disabled]="item.cantidad >= 10">+</button>
         </div>
-      </ion-item>
-    </ion-list>
+      </div>
+    </section>
 
-    <div class="cart-summary" *ngIf="cartItems.length > 0">
-      <p>Total a pagar: <strong>S/ {{ total | number:'1.2-2' }}</strong></p>
-      <div class="cart-actions">
-        <button class="empty-cart-btn" (click)="clearCart()">Vaciar Canasta</button>
+
+    <section class="cart-summary" *ngIf="cartItems.length > 0">
+      <div class="summary-left">
+        <span class="summary-title">Total a pagar:</span>
+        <span class="summary-amount">S/ {{ total | number:'1.2-2' }}</span>
+      </div>
+      <div class="summary-right">
         <button class="checkout-btn" (click)="irAPagar()">Ir a Pagar</button>
       </div>
-    </div>
+    </section>
+
   </section>
 </ion-content>
