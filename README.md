@@ -40,7 +40,7 @@ Este es un proyecto desarrollado para gestionar una pollería, compuesto por:
 1️⃣ Clona el repositorio:
 
 ```bash
-git clone https://github.com/tu-usuario/tu-repo.git
+git clone https://github.com/dachugo/polleria-new-project.git
 ```
 
 2️⃣ Crea el archivo `src/environments/environment.secret.ts` con tus claves:
@@ -62,7 +62,7 @@ npm install
 4️⃣ Levanta el proyecto:
 
 ```bash
-ng serve
+ionic serve
 ```
 
 ---
