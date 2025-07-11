@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
+import { AuthService } from './auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CartService {
-
-  constructor() { }
+  constructor(private authService: AuthService) {}
 }

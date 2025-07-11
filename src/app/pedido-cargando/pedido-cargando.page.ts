@@ -112,7 +112,6 @@ export class PedidoCargandoPage implements OnInit {
       'Listo para enviar',
       'En camino',
       'Espera de entregar',
-      // 'Entregado' quitado: será solo con botón
     ];
 
     let index = 0;

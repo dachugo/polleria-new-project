@@ -35,7 +35,6 @@ export class AuthService {
     );
 
     this.supabase.auth.onAuthStateChange((event, sess) => {
-      console.log('Auth event:', event, 'Session:', sess);
       if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
         this.currentUser.next(sess?.user ?? null);
       } else {
