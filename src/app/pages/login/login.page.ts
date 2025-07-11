@@ -43,8 +43,6 @@ export class LoginPage implements OnInit, OnDestroy {
       .getCurrentUser()
       .subscribe((user) => {
         if (user) {
-          console.log('USER ON LOGIN PAGE: ', user);
-          // Opcional: Puedes redirigir desde aquí si lo necesitas
         }
       });
   }
@@ -76,7 +74,6 @@ export class LoginPage implements OnInit, OnDestroy {
 
     const { correo, contrasena } = this.credentials.getRawValue();
 
-    //USAR email y password como requiere Supabase
     const { data, error } = await this.authService.signIn({
       email: correo,
       password: contrasena,
@@ -104,8 +101,6 @@ export class LoginPage implements OnInit, OnDestroy {
     });
 
     const perfil = await this.authService.getUserProfile();
-    console.log('Perfil del usuario:', perfil);
-
     this.authService.setCachedProfile(perfil);
 
     await loading.dismiss();
@@ -123,7 +118,6 @@ export class LoginPage implements OnInit, OnDestroy {
       if (!data) {
         console.log('Insertando perfil completo por primera vez');
 
-        // Cargar datos temporales si existen
         const tempData = localStorage.getItem('registro_temp');
         if (tempData) {
           try {
@@ -131,7 +125,7 @@ export class LoginPage implements OnInit, OnDestroy {
             perfilBase.nombre = parsed.nombre || '';
             perfilBase.direccion = parsed.direccion || '';
             perfilBase.telefono = parsed.telefono || '';
-            localStorage.removeItem('registro_temp'); //Limpiar
+            localStorage.removeItem('registro_temp');
           } catch (e) {
             console.warn('No se pudo parsear datos de registro_temp');
           }
@@ -146,11 +140,7 @@ export class LoginPage implements OnInit, OnDestroy {
 
         if (error) {
           console.error('Error al insertar perfil:', error.message);
-        } else {
-          console.log('Perfil insertado correctamente');
         }
-      } else {
-        console.log('Perfil ya existe, no se inserta');
       }
     } catch (e) {
       console.error('Error inesperado al verificar perfil:', e);
