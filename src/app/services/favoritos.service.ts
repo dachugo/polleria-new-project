@@ -12,7 +12,6 @@ export class FavoritosService {
     let attempts = 0;
 
     while (!userId && attempts < 5) {
-      // Espera máximo 5 intentos
       await new Promise((res) => setTimeout(res, 200));
       userId = this.authService.getCurrentUserId();
       attempts++;
