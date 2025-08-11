@@ -22,9 +22,9 @@
 
 ---
 
-## ⚡ **Programming Challenge - 1 Week**
+## ⚡ **Programming Challenge - 10 DAYS**
 
-This project was developed as an **intensive programming challenge** completed in **just 7 days**, demonstrating:
+This project was developed as an **intensive programming challenge** completed in **just 10 days**, demonstrating:
 
 <div align="center">
   <img src="src/assets/screenshots-app/bg-presentation.png" alt="App Presentation" width="700"/>
