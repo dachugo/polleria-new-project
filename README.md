@@ -355,7 +355,6 @@ ionic capacitor build ios
 - Review code before merge
 
 ---
----
 
 <div align="center">
   <p><strong>Thanks for using Pollería Arenas! 🍗✨</strong></p>
