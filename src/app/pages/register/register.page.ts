@@ -12,9 +12,41 @@ import {
   FormsModule,
   ReactiveFormsModule,
   ValidatorFn,
+  AbstractControl,
+  ValidationErrors,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+
+function textOnlyValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+    if (!value) return null;
+    
+    const textOnlyRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+    return textOnlyRegex.test(value) ? null : { textOnly: true };
+  };
+}
+
+function addressValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+    if (!value) return null;
+    
+    const addressRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-]+$/;
+    return addressRegex.test(value) ? null : { invalidAddress: true };
+  };
+}
+
+function phoneValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+    if (!value) return null;
+    
+    const phoneRegex = /^[0-9]{9}$/;
+    return phoneRegex.test(value) ? null : { invalidPhone: true };
+  };
+}
 
 function passwordMatchValidator(
   password: string,
@@ -37,13 +69,39 @@ function passwordMatchValidator(
 export class RegisterPage {
   credentials = this.fb.nonNullable.group(
     {
-      name: ['', [Validators.required]],
-      lastname: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      address: ['', [Validators.required]],
-      phone: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      passwordConfirmation: ['', [Validators.required]],
+      name: ['', [
+        Validators.required, 
+        Validators.maxLength(50),
+        textOnlyValidator()
+      ]],
+      lastname: ['', [
+        Validators.required, 
+        Validators.maxLength(50),
+        textOnlyValidator()
+      ]],
+      email: ['', [
+        Validators.required, 
+        Validators.email,
+        Validators.maxLength(100)
+      ]],
+      address: ['', [
+        Validators.required, 
+        Validators.maxLength(200),
+        addressValidator()
+      ]],
+      phone: ['', [
+        Validators.required,
+        phoneValidator()
+      ]],
+      password: ['', [
+        Validators.required, 
+        Validators.minLength(8),
+        Validators.maxLength(50)
+      ]],
+      passwordConfirmation: ['', [
+        Validators.required,
+        Validators.maxLength(50)
+      ]],
     },
     {
       validators: passwordMatchValidator('password', 'passwordConfirmation'),
@@ -66,7 +124,6 @@ export class RegisterPage {
     const { email, password, name, lastname, address, phone } =
       this.credentials.getRawValue();
 
-    // Guardar datos en localStorage para usarlos tras la verificación
     localStorage.setItem(
       'registro_temp',
       JSON.stringify({
@@ -76,7 +133,6 @@ export class RegisterPage {
       })
     );
 
-    // Crear cuenta en Supabase Auth
     const { data, error } = await this.authService.supabaseClient.auth.signUp({
       email,
       password,
@@ -92,7 +148,6 @@ export class RegisterPage {
       return;
     }
 
-    // Informar que debe confirmar el correo
     this.showAlert(
       'Registro exitoso',
       'Revisa tu correo para confirmar tu cuenta antes de iniciar sesión.'
@@ -104,6 +159,57 @@ export class RegisterPage {
 
   goToLogin() {
     this.route.navigate(['login']);
+  }
+
+  filterTextOnly(event: any, controlName: string) {
+    const input = event.target;
+    const value = input.value;
+    const filteredValue = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+    
+    if (value !== filteredValue) {
+      input.value = filteredValue;
+      this.credentials.get(controlName)?.setValue(filteredValue);
+    }
+  }
+
+  filterPhoneOnly(event: any) {
+    const input = event.target;
+    const value = input.value;
+    const filteredValue = value.replace(/[^0-9]/g, '');
+    
+    if (value !== filteredValue) {
+      input.value = filteredValue;
+      this.credentials.get('phone')?.setValue(filteredValue);
+    }
+  }
+
+  filterAddress(event: any) {
+    const input = event.target;
+    const value = input.value;
+    const filteredValue = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-]/g, '');
+    
+    if (value !== filteredValue) {
+      input.value = filteredValue;
+      this.credentials.get('address')?.setValue(filteredValue);
+    }
+  }
+
+  filterPassword(event: any) {
+    const input = event.target;
+    const value = input.value;
+    if (value.length > 50) {
+      input.value = value.substring(0, 50);
+      this.credentials.get('password')?.setValue(value.substring(0, 50));
+    }
+  }
+
+  filterPasswordConfirmation(event: any) {
+    const input = event.target;
+    const value = input.value;
+    if (value.length > 50) {
+      input.value = value.substring(0, 50);
+      this.credentials.get('passwordConfirmation')?.setValue(value.substring(0, 50));
+    }
   }
 
   async showAlert(title: string, msg: string) {

@@ -40,12 +40,12 @@ $font-family: "Inter", sans-serif;
 
 .background-image {
   @include cover-background("/assets/img/background-image.png");
-  position: fixed; // Mantiene el fondo
+  position: fixed; 
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 0; // Debajo de todo
+  z-index: 0;
 }
 
 ion-content {
@@ -163,9 +163,9 @@ ion-button::part(native) {
   padding: 20px 10px;
   width: 100%;
   --border-radius: 10px;
-  font-size: 1rem; // se puede sobreescribir en clases
+  font-size: 1rem; 
   font-weight: normal;
-  font-family: $font-family; // si todos los botones lo usan
+  font-family: $font-family; 
   transition: var(--transition);
 }
 
@@ -181,4 +181,36 @@ ion-button.login-button::part(native) {
   --background-focused: #2b1a00;
   transition: background-color 0.3s ease, color 0.3s ease,
     border-color 0.3s ease;
+}
+
+ion-input.error-input {
+  border-color: #ff4444;
+  --border-color: #ff4444;
+}
+
+ion-input.error-input::part(native) {
+  border-color: #ff4444;
+}
+
+.error-message {
+  width: 100%;
+  margin-top: -15px;
+  margin-bottom: 5px;
+  padding: 0 5px;
+}
+
+.error-message span {
+  color: #ff4444;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: $font-family;
+  display: block;
+  text-align: left;
+}
+
+ion-button.login-button:disabled::part(native) {
+  background: #666;
+  color: #999;
+  border-color: #666;
+  cursor: not-allowed;
 }
