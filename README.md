@@ -26,6 +26,11 @@
 
 This project was developed as an **intensive programming challenge** completed in **just 7 days**, demonstrating:
 
+<div align="center">
+  <img src="src/assets/screenshots-app/bg-presentation.png" alt="App Presentation" width="700"/>
+  <p><em>Welcome to Polleria Arenas!</em></p>
+</div>
+
 ### 🚀 **Technical Skills Demonstrated**
 - **Full-Stack Development** with modern cutting-edge technologies
 - **Software Architecture** robust and scalable from scratch
@@ -63,8 +68,8 @@ This project was developed as an **intensive programming challenge** completed i
 </div>
 
 <div align="center">
-  <img src="src/assets/screenshots-app/bg-presentation.png" alt="App Presentation" width="700"/>
-  <p><em>Main app presentation and branding</em></p>
+  <img src="src/assets/screenshots-app/login-validations-screens.png" alt="Login and Validation Screens" width="700"/>
+  <p><em>Secure authentication with form validations</em></p>
 </div>
 
 <div align="center">
@@ -75,11 +80,6 @@ This project was developed as an **intensive programming challenge** completed i
 <div align="center">
   <img src="src/assets/screenshots-app/sections-screenshots.png" alt="App Sections and Navigation" width="700"/>
   <p><em>App sections: cart, favorites, profile, and navigation</em></p>
-</div>
-
-<div align="center">
-  <img src="src/assets/screenshots-app/login-validations-screens.png" alt="Login and Validation Screens" width="700"/>
-  <p><em>Secure authentication with form validations</em></p>
 </div>
 
 <div align="center">
