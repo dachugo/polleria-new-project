@@ -111,11 +111,6 @@ This project was developed as an **intensive programming challenge** completed i
 - **Multiple Payment Methods** - Cards, cash, Yape
 - **Card Management** - Secure storage of payment methods
 
-### **Development Tools**
-- **ESLint** - Code linting
-- **Karma + Jasmine** - Testing framework
-- **Angular CLI** - Angular development tools
-
 ---
 
 ## ✨ Main Features
@@ -297,29 +292,7 @@ ionic capacitor run ios
 
 ---
 
-## 🧪 Testing & Quality
-
-### **Testing Frameworks**
-- **Jasmine**: Testing framework
-- **Karma**: Test runner
-- **Angular Testing Utilities**: Angular-specific tools
-
-### **Test Coverage**
-- Main components
-- Critical services
-- Form validations
-- Business logic
-
----
-
 ## 🚀 Deployment
-
-### **Supported Platforms**
-- **Google Play Store**: Android APK
-- **App Store**: iOS build
-- **Web**: Responsive web app
-- **PWA**: Desktop app installation
-
 ### **Build Process**
 ```bash
 # Production build
@@ -382,55 +355,6 @@ ionic capacitor build ios
 - Review code before merge
 
 ---
-
-## 📄 License
-
-This project is under MIT License. See `LICENSE` file for details.
-
----
-
-## 👨‍💻 Author
-
-**Pollería Arenas** - Complete management system for chicken restaurants
-
-- **Developer**: [Your Name]
-- **Contact**: [your-email@example.com]
-- **GitHub**: [@dachugo](https://github.com/dachugo)
-
-### 🎯 **Professional Profile**
-**Full-Stack Developer** specialized in hybrid mobile apps and modern business solutions. This project demonstrates my ability to:
-
-- **Deliver complete products** in extremely short deadlines
-- **Master multiple technologies** simultaneously
-- **Solve complex problems** efficiently and elegantly
-- **Create scalable architectures** that support business growth
-- **Maintain high standards** of code and documentation under pressure
-
-### 💼 **Opportunity Availability**
-- **Direct hiring** for business projects
-- **Technical consulting** in mobile and web development
-- **Collaboration** with growing startups and companies
-- **Mentoring** for junior developers
-
----
-
-## 🙏 Acknowledgments
-
-- **Ionic Framework** for the excellent hybrid framework
-- **Supabase** for robust backend infrastructure
-- **Stripe** for secure payment platform
-- **Angular Community** for modern web framework
-
----
-
-## 📞 Support
-
-If you have questions or need help:
-
-- 📧 **Email**: [your-email@example.com]
-- 🐛 **Issues**: [GitHub Issues](https://github.com/dachugo/polleria-new-project/issues)
-- 📖 **Documentation**: [Project Wiki](https://github.com/dachugo/polleria-new-project/wiki)
-
 ---
 
 <div align="center">
